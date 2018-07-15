@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timinger", "Timinger\Timinger.csproj", "{D9E87BE2-E9ED-4B79-93E2-EE28D68812B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9E87BE2-E9ED-4B79-93E2-EE28D68812B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9E87BE2-E9ED-4B79-93E2-EE28D68812B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9E87BE2-E9ED-4B79-93E2-EE28D68812B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9E87BE2-E9ED-4B79-93E2-EE28D68812B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {78F0F9DF-1299-44F7-92E1-DB102AB0E2E6}
+	EndGlobalSection
+EndGlobal

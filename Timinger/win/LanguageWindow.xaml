@@ -1,0 +1,22 @@
+﻿<Window x:Class="Timinger.LanguageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Timinger"
+        mc:Ignorable="d"
+        Title="LanguageWindow" Height="242.532" Width="205.26" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="TextBlockSelectLanguage" Margin="5 5 5 5" Text="Choose language:" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <ListBox x:Name="ListBoxChosenLanguage" Margin="5 5 5 5" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <ListBoxItem>English</ListBoxItem>
+            <ListBoxItem>Русский</ListBoxItem>
+        </ListBox>
+        <Button x:Name="ButtonAccept" MinWidth="80" Margin="5 5 5 5" Content="Accept" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+    </Grid>
+</Window>

@@ -1,0 +1,22 @@
+﻿<Window x:Class="Timinger.DonateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Timinger"
+        mc:Ignorable="d"
+        Title="DonateWindow" Height="300" Width="400" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary Source="res\Topics.xaml"/>
+    </Window.Resources>
+    <Grid>
+        <RichTextBox x:Name="DonateTextBox" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="RichTextBox"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+    </Grid>
+
+</Window>

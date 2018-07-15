@@ -1,0 +1,385 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Timinger.res">
+    
+    <FlowDocument x:Key="NameDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>Название(Имя):</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            Название вашей атаки, старайтесь выбирать осмысленные имена, такие как:
+            <LineBreak/>
+            ID деревни которой принадлежит ударка, название округа или имя вассала.
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="TimeDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>Время:</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            Время до прибытия вашей ударки в формате чч:мм:сс.
+             В качестве разделителя допускается использовать любой символ за исключением цифр. Следующие примеры являются верными:
+            <LineBreak/>
+            <LineBreak/>
+            12:33:45 - 12 часов 33 минуты 45 секунд
+            <LineBreak/>
+            33.45 - 33 минуты 45 секунд
+            <LineBreak/>
+            1д20Е30Ф - 1 час 20 минут 30 секунд
+            <LineBreak/>
+            3600 - 3600 секунд
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="TypeDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>Тип в таблице "Атаки":</Bold>
+            </Span>
+            
+            <LineBreak/>
+            Ударка - атака которая не может быть капитаном (округ, вассал)
+            <LineBreak/>
+            <LineBreak/>
+            Капитан - атака в которой обязательно присутствует капитан
+            <LineBreak/>
+            <LineBreak/>
+            Неизвестно - позволить программе самой выбрать наиболее подходящий тип - !Рекомендуется
+            <LineBreak/>
+            <LineBreak/>
+            <Span>
+                <Bold>!Выпадающий список правее кнопки "Добавить" определяет "тип по-умолчанию" который будет использоваться для каждой добавленной атаки</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            <Span>
+                <Bold>Тип в таблице "Результат":</Bold>
+            </Span>
+            <LineBreak/>
+            Ударка - атака без капитана
+            <LineBreak/>
+            <LineBreak/>
+            Капитан - атака с капитаном
+            
+            
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="CardDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>Карты в "Настройки":</Bold>
+            </Span>
+            
+            <LineBreak/>
+            В полях ввода укажите максимальное количество карт "Логистика I II III" которые могут быть использованы при подсчетах.
+            <LineBreak/>
+            <LineBreak/>
+            <Span>
+                <Bold>Карта в таблице "Результат":</Bold>
+            </Span>
+            <LineBreak/>
+            Карта которая была использована при подсчетах
+            <LineBreak/>
+            2х - Логистика I
+            <LineBreak/>
+            3х - Логистика II
+            <LineBreak/>
+            5х - Логистика III
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="RestTimeDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>Ожидание:</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            Минимальный интервал (в секундах) между атаками. На случай вероятных погрешностей, рекомендуется использовать "Ожидание"
+            по умолчанию - 30 секунд.
+            <LineBreak/>
+            <LineBreak/>
+            <Span>
+                <Bold>!Важно: перед атакой пострайтесь пересчитать результаты программы вручную, ошибка может привести к потере ваших армий!</Bold>
+            </Span>
+            
+
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="ForceCaptainDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>"Обязателен капитан:</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            Опция исключает варианты в которых нету ни одного капитана.
+            <LineBreak/>
+            <LineBreak/>
+            <Span>
+                <Bold>
+                    !Если опция включена и ни одна из ваших атак не может быть капитаном (Тип: Ударка), на экране появится предупреждение.
+                    В этом случае измените тип ваших атак, либо выключите опцию "Обязателен капитан".
+                </Bold>
+            </Span>
+
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="TargetDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>Цель:</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            Название(Имя) атакуемой цели, рекомендуется использовать id либо название деревни.
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="CopyDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>Окно копирования:</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            Содержит данные (в зависимости от таблицы) для копирования в буфер обмена, 
+            а также фильтры для предварительного форматирования текста.
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="UnlockDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>"Разблокировать" небезопасные свойства:</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            <Span>
+                <Bold>Армия - </Bold>
+            </Span>
+            Уровень навыка "Марш-бросок"
+            <LineBreak/>
+            <Span>
+                <Bold>Капитан -</Bold>
+            </Span> 
+            Уровень навыка "Логистика"
+            <LineBreak/>
+            <Span>
+                <Bold>Дельта -</Bold>
+            </Span> 
+            Параметр означающий во сколько раз армия быстрее капитана, по-умолчанию 3.00
+            <LineBreak/>
+            <LineBreak/>
+            <Span>
+                <Bold>!Важно: изменение вышеуказанных параметров может привести к погрешностям в вычислениях!</Bold>
+            </Span>
+            
+        </Paragraph>
+    </FlowDocument>
+    
+    <FlowDocument x:Key="DonateDoc_RUS">
+        <Paragraph>
+            Пополнить счет через WebMoney
+            <LineBreak/>
+            <LineBreak/>
+            123129Z - WMZ
+            <LineBreak/>
+            439582E - WME
+            <LineBreak/>
+            848273R - WMR
+        </Paragraph>
+    </FlowDocument>
+
+
+
+    <FlowDocument x:Key="NameDoc_ENG">
+        <Paragraph>
+            <Span>
+                <Bold>Название(Имя):</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            Название вашей атаки, старайтесь выбирать осмысленные имена, такие как:
+            <LineBreak/>
+            ID деревни которой принадлежит ударка, название округа или имя вассала.
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="TimeDoc_ENG">
+        <Paragraph>
+            <Span>
+                <Bold>Время:</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            Время до прибытия вашей ударки в формате чч:мм:сс.
+             В качестве разделителя допускается использовать любой символ за исключением цифр. Следующие примеры являются верными:
+            <LineBreak/>
+            <LineBreak/>
+            12:33:45 - 12 часов 33 минуты 45 секунд
+            <LineBreak/>
+            33.45 - 33 минуты 45 секунд
+            <LineBreak/>
+            1д20Е30Ф - 1 час 20 минут 30 секунд
+            <LineBreak/>
+            3600 - 3600 секунд
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="TypeDoc_ENG">
+        <Paragraph>
+            <Span>
+                <Bold>Тип в таблице "Атаки":</Bold>
+            </Span>
+
+            <LineBreak/>
+            Ударка - атака которая не может быть капитаном (округ, вассал)
+            <LineBreak/>
+            <LineBreak/>
+            Капитан - атака в которой обязательно присутствует капитан
+            <LineBreak/>
+            <LineBreak/>
+            Неизвестно - позволить программе самой выбрать наиболее подходящий тип - !Рекомендуется
+            <LineBreak/>
+            <LineBreak/>
+            <Span>
+                <Bold>!Выпадающий список правее кнопки "Добавить" определяет "тип по-умолчанию" который будет использоваться для каждой добавленной атаки</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            <Span>
+                <Bold>Тип в таблице "Результат":</Bold>
+            </Span>
+            <LineBreak/>
+            Ударка - атака без капитана
+            <LineBreak/>
+            <LineBreak/>
+            Капитан - атака с капитаном
+
+
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="CardDoc_ENG">
+        <Paragraph>
+            <Span>
+                <Bold>Карты в "Настройки":</Bold>
+            </Span>
+
+            <LineBreak/>
+            В полях ввода укажите максимальное количество карт "Логистика I II III" которые могут быть использованы при подсчетах.
+            <LineBreak/>
+            <LineBreak/>
+            <Span>
+                <Bold>Карта в таблице "Результат":</Bold>
+            </Span>
+            <LineBreak/>
+            Карта которая была использована при подсчетах
+            <LineBreak/>
+            2х - Логистика I
+            <LineBreak/>
+            3х - Логистика II
+            <LineBreak/>
+            5х - Логистика III
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="RestTimeDoc_ENG">
+        <Paragraph>
+            <Span>
+                <Bold>Ожидание:</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            Минимальный интервал (в секундах) между атаками. На случай вероятных погрешностей, рекомендуется использовать "Ожидание"
+            по умолчанию - 30 секунд.
+            <LineBreak/>
+            <LineBreak/>
+            <Span>
+                <Bold>!Важно: перед атакой пострайтесь пересчитать результаты программы вручную, ошибка может привести к потере ваших армий!</Bold>
+            </Span>
+
+
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="ForceCaptainDoc_ENG">
+        <Paragraph>
+            <Span>
+                <Bold>"Force captain:</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            Опция исключает варианты в которых нету ни одного капитана.
+            <LineBreak/>
+            <LineBreak/>
+            <Span>
+                <Bold>
+                    !Если опция включена и ни одна из ваших атак не может быть капитаном (Тип: Ударка), на экране появится предупреждение.
+                    В этом случае измените тип ваших атак, либо выключите опцию "Обязателен капитан".
+                </Bold>
+            </Span>
+
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="TargetDoc_ENG">
+        <Paragraph>
+            <Span>
+                <Bold>Цель:</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            Название(Имя) атакуемой цели, рекомендуется использовать id либо название деревни.
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="CopyDoc_ENG">
+        <Paragraph>
+            <Span>
+                <Bold>Окно копирования:</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            Содержит данные (в зависимости от таблицы) для копирования в буфер обмена, 
+            а также фильтры для предварительного форматирования текста.
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="UnlockDoc_ENG">
+        <Paragraph>
+            <Span>
+                <Bold>"Разблокировать" небезопасные свойства:</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            <Span>
+                <Bold>Армия -</Bold>
+            </Span>
+            Уровень навыка "Марш-бросок"
+            <LineBreak/>
+            <Span>
+                <Bold>Капитан -</Bold>
+            </Span>
+            Уровень навыка "Логистика"
+            <LineBreak/>
+            <Span>
+                <Bold>Дельта -</Bold>
+            </Span>
+            Параметр означающий во сколько раз армия быстрее капитана, по-умолчанию 3.00
+            <LineBreak/>
+            <LineBreak/>
+            <Span>
+                <Bold>!Важно: изменение вышеуказанных параметров может привести к погрешностям в вычислениях!</Bold>
+            </Span>
+
+        </Paragraph>
+    </FlowDocument>
+
+    <FlowDocument x:Key="DonateDoc_ENG">
+        <Paragraph>
+            Hi, my dear friend! Thanks that you find this small button. If you want to see new soft, flesh update,
+             or you are just good man. Support us with small donate, catch WebMoney:
+            <LineBreak/>
+            <LineBreak/>
+            123129Z - WMZ
+            <LineBreak/>
+            439582E - WME
+            <LineBreak/>
+            848273R - WMR
+        </Paragraph>
+    </FlowDocument>
+</ResourceDictionary>

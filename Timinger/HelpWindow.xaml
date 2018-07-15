@@ -1,0 +1,28 @@
+﻿<Window x:Class="Timinger.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Timinger"
+        mc:Ignorable="d"
+        Title="HelpWindow" Height="400" Width="500" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="res\Topics.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ListBox Grid.Column="0" x:Name="TopicListBox" HorizontalAlignment="Stretch" Margin="10,10,2,10" VerticalAlignment="Stretch" DisplayMemberPath="Key" SelectionChanged="TopicListBox_SelectionChanged"/>
+        <RichTextBox x:Name="ContentBlock" Grid.Column="1" HorizontalAlignment="Left" Height="350" Margin="10,10,0,0" VerticalAlignment="Top" Width="308">
+            
+        </RichTextBox>
+    </Grid>
+
+</Window>
