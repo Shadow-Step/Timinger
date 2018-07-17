@@ -67,6 +67,16 @@
             
         </Paragraph>
     </FlowDocument>
+    <FlowDocument x:Key="ActiveDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>Активна:</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            Параметр определяющий будет ли атака учитываться при расчетах. Можно использовать для временного исключения атаки без ее удаления
+        </Paragraph>
+    </FlowDocument>
     <FlowDocument x:Key="CardDoc_RUS">
         <Paragraph>
             <Span>
@@ -177,17 +187,26 @@
             
         </Paragraph>
     </FlowDocument>
-    
+    <FlowDocument x:Key="TotalTimeDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>Общее время для атаки:</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            Время - которое необходимо затратить для отправки всех атак по данному результату, иначе говоря - разница между первой и последней атакой
+        </Paragraph>
+    </FlowDocument>
     <FlowDocument x:Key="DonateDoc_RUS">
         <Paragraph>
             Пополнить счет через WebMoney
             <LineBreak/>
             <LineBreak/>
-            123129Z - WMZ
+            Z112531190074 - WMZ
             <LineBreak/>
-            439582E - WME
+            E069661324323 - WME
             <LineBreak/>
-            848273R - WMR
+            R183093754857 - WMR
         </Paragraph>
     </FlowDocument>
 
@@ -368,7 +387,16 @@
 
         </Paragraph>
     </FlowDocument>
-
+    <FlowDocument x:Key="TotalTimeDoc_ENG">
+        <Paragraph>
+            <Span>
+                <Bold>Total time to attack:</Bold>
+            </Span>
+            <LineBreak/>
+            <LineBreak/>
+            How much time you need to send all attacks from current result, time between first and last attack
+        </Paragraph>
+    </FlowDocument>
     <FlowDocument x:Key="DonateDoc_ENG">
         <Paragraph>
             Hi, my dear friend! Thanks that you find this small button. If you want to see new soft, flesh update,

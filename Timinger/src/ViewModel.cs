@@ -11,7 +11,22 @@ namespace Timinger
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Config config;
+        public Config Config { get; set; }
+
+        private bool ruslang;
+        public bool RusLang
+        {
+            get { return this.ruslang; }
+            set { this.ruslang = value;INotifyPropertyChanged("RusLang"); }
+
+        }
+        private bool englang;
+        public bool EngLang
+        {
+            get { return this.englang; }
+            set { this.englang = value; INotifyPropertyChanged("EngLang"); }
+
+        }
 
         private Language language;
         public Language Language
@@ -28,14 +43,25 @@ namespace Timinger
         public string TimPath
         {
             get { return timpath; }
-            set { timpath = value; INotifyPropertyChanged("TimPath"); }
+            set { timpath = value; Config.LastProjectPath = timpath; INotifyPropertyChanged("TimPath"); }
         }
         
         public ViewModel()
         {
-            config = new Config();
-            config.LoadFromFile();
-            Language = new Language(config.Language);
+            Config = new Config();
+            Config.LoadFromFile();
+            Language = new Language();
+            //switch (config.Language)
+            //{
+            //    case "RUS":
+            //        RusLang = true;
+            //        EngLang = false;
+            //        break;
+            //    case "ENG":
+            //        RusLang = false;
+            //        EngLang = true;
+            //        break;
+            //}
         }
 
         void INotifyPropertyChanged(string property)
@@ -48,9 +74,24 @@ namespace Timinger
             if(local != Language.CurrentLanguage)
             {
                 Language = new Language(local);
-                config.Language = local;
+                Config.Language = local;
+                switch (Config.Language)
+                {
+                    case "RUS":
+                        RusLang = true;
+                        EngLang = false;
+                        break;
+                    case "ENG":
+                        RusLang = false;
+                        EngLang = true;
+                        break;
+                }
             }
             
+        }
+        public void FindBest()
+        {
+
         }
     }
 }

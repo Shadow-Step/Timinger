@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Timinger"
         mc:Ignorable="d"
-        Title="DonateWindow" Height="300" Width="400" WindowStartupLocation="CenterScreen">
+        Title="{Binding Path=Donate}" Height="300" Width="400" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary Source="res\Topics.xaml"/>
     </Window.Resources>
     <Grid>
-        <RichTextBox x:Name="DonateTextBox" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch">
+        <RichTextBox x:Name="DonateTextBox" IsReadOnly="True" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch">
             <FlowDocument>
                 <Paragraph>
                     <Run Text="RichTextBox"/>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Timinger"
         mc:Ignorable="d"
-        Title="HelpWindow" Height="400" Width="500" WindowStartupLocation="CenterScreen">
+        Title="{Binding Path=Help}" Height="400" Width="500" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -20,7 +20,7 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <ListBox Grid.Column="0" x:Name="TopicListBox" HorizontalAlignment="Stretch" Margin="10,10,2,10" VerticalAlignment="Stretch" DisplayMemberPath="Key" SelectionChanged="TopicListBox_SelectionChanged"/>
-        <RichTextBox x:Name="ContentBlock" Grid.Column="1" HorizontalAlignment="Left" Height="350" Margin="10,10,0,0" VerticalAlignment="Top" Width="308">
+        <RichTextBox x:Name="ContentBlock" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Stretch" Margin="2,10,10,10" VerticalAlignment="Stretch">
             
         </RichTextBox>
     </Grid>

@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,6 +29,7 @@ namespace Timinger
     public partial class MainWindow : Window
     {
         ViewModel viewModel = new ViewModel();
+        Thread count_thread = null;
 
         public List<double> speed_list = new List<double>()
         {
@@ -36,7 +39,6 @@ namespace Timinger
         {
             "0(0%)","1(25%)","2(50%)","3(75%)","4(100%)","5(125%)","6(200%)","7(350%)","8(500%)"
         };
-        public List<Attack> last_best = null;
         public double army_speed = 0;
         public double cap_speed = 0;
         public Timinger.ArmyType default_type = Timinger.ArmyType.Unknown;
@@ -69,27 +71,51 @@ namespace Timinger
         {
             InitializeComponent();
             this.DataContext = viewModel;
+            if (viewModel.Config.LastProjectPath != null)
+            {
+                try
+                {
+                    LoadProject(viewModel.Config.LastProjectPath);
+                }
+                catch (Exception)
+                {
+
+                    viewModel.TimPath = null;
+                }
+            }
             InitColumns();
             //InitLocal(config.Language);
+            
         }
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             var result = MessageBox.Show(Timinger.Language.ExitMessage,Timinger.Language.Exit, MessageBoxButton.YesNo);
             if (result == MessageBoxResult.No)
                 e.Cancel = true;
-            viewModel.config.SaveToFile();
+            viewModel.Config.SaveToFile();
         }
        
-
-        private void FindBest(object sender, RoutedEventArgs e)
+        private void Test(object sender, RoutedEventArgs e)
+        {
+            if(count_thread == null || count_thread.IsAlive == false)
+            {
+                count_thread = new Thread(new ParameterizedThreadStart(FindBest));
+                count_thread.Start(new ThreadArgs(target.attacks.ToList(),0,0,0));
+            }
+                
+        }
+        private void FindBest(object args)
         {
             if (target == null || target.attacks.Count < 2 || CheckCaps() == false)
                 return;
 
-            variants.Clear();
-            last_best = null;
-
             List<Attack> attacks = CopyList(target.attacks.ToList());
+            attacks.RemoveAll((x) => x.Active == false);
+            if (attacks.Count < 2)
+                return;
+            variants.Clear();
+            target.Best = null;
+
             if (UnlockUnsafeSettings.IsChecked == true)
             {
                 if (ArmySpeedBox.SelectedIndex != speed_list.Count - 1 || CapSpeedBox.SelectedIndex != speed_list.Count - 1)
@@ -117,8 +143,139 @@ namespace Timinger
             int card5 = 0;
 
             variants.Add(attacks);
-            
-            Parse(attacks, (x) => x.EnableCap(), 0, attacks.Count);
+            Parse(attacks, (x) => x.EnableCap(viewModel.Config.Delta), 0, attacks.Count);
+
+            if (TryParseToDigit(X2Box, out card2) > 0)
+            {
+                for (int i = 0, size = variants.Count; i < size; i++)
+                {
+                    var arr = CopyList(variants[i]);
+                    Parse(arr, (x) => x.EnableCard(CardEffect.x2), 0, card2);
+                }
+            }
+            if (TryParseToDigit(X3Box, out card3) > 0)
+            {
+                for (int i = 0, size = variants.Count; i < size; i++)
+                {
+                    var arr = CopyList(variants[i]);
+                    Parse(arr, (x) => x.EnableCard(CardEffect.x3), 0, card3);
+                }
+            }
+            if (TryParseToDigit(X5Box, out card5) > 0)
+            {
+                for (int i = 0, size = variants.Count; i < size; i++)
+                {
+                    var arr = CopyList(variants[i]);
+                    Parse(arr, (x) => x.EnableCard(CardEffect.x5), 0, card5);
+                }
+            }
+
+            double result_time = 0;
+            foreach (var item in variants)
+            {
+                if (UnlockUnsafeSettings.IsChecked == true)
+                {
+                    if (ArmySpeedBox.SelectedIndex != speed_list.Count - 1 || CapSpeedBox.SelectedIndex != speed_list.Count - 1)
+                    {
+                        foreach (var att in item)
+                        {
+                            switch (att.armytype)
+                            {
+                                case ArmyType.Captain:
+                                    att.Time /= speed_list[CapSpeedBox.SelectedIndex];
+                                    break;
+                                case ArmyType.Army:
+                                    att.Time /= speed_list[ArmySpeedBox.SelectedIndex];
+                                    break;
+                            }
+                        }
+                    }
+                }
+                item.Sort();
+                bool good = true;
+                int caps = 0;
+                for (int i = 1; i < item.Count; i++)
+                {
+                    if (item[i].Time - item[i - 1].Time < int.Parse(RestTimeTextBox.Text))
+                    {
+                        good = false;
+                        break;
+                    }
+                }
+                foreach (var cap in item)
+                {
+                    if (CheckBoxForceCaptain.IsChecked == true)
+                    {
+                        if (cap.armytype == ArmyType.Captain)
+                            caps++;
+                    }
+                }
+                if (CheckBoxForceCaptain.IsChecked == true && caps == 0)
+                    continue;
+
+                var temp = item[item.Count - 1].Time - item[0].Time;
+                if (good && (temp < result_time || result_time == 0))
+                {
+                    result_time = item[item.Count - 1].Time - item[0].Time;
+                    target.Best = item;
+                }
+            }
+
+            if (target.Best == null)
+                NoResultDialog();
+            else
+            {
+                foreach (var item in target.Best)
+                {
+                    if (item.armytype == ArmyType.Unknown)
+                        item.armytype = ArmyType.Army;
+                }
+                target.Best.Reverse();
+                TotalTimeTextBlock.Text = Timinger.Language.TotalTimeToAttack + ": " + strfun.SecondsToTimeString(target.Best.First().Time - target.Best.Last().Time);
+                ResultGrid.ItemsSource = target.Best;
+            }
+
+        }
+        private void FindBest(object sender, RoutedEventArgs e)
+        {
+            if (target == null || target.attacks.Count < 2 || CheckCaps() == false)
+                return;
+
+            List<Attack> attacks = CopyList(target.attacks.ToList());
+            attacks.RemoveAll((x) => x.Active == false);
+            if (attacks.Count < 2)
+                return;
+            variants.Clear();
+            target.Best = null;
+
+            if (UnlockUnsafeSettings.IsChecked == true)
+            {
+                if (ArmySpeedBox.SelectedIndex != speed_list.Count - 1 || CapSpeedBox.SelectedIndex != speed_list.Count - 1)
+                {
+                    foreach (var item in attacks)
+                    {
+                        switch (item.armytype)
+                        {
+                            case ArmyType.Captain:
+                                item.Time *= speed_list[CapSpeedBox.SelectedIndex];
+                                break;
+                            case ArmyType.Army:
+                                item.Time *= speed_list[ArmySpeedBox.SelectedIndex];
+                                break;
+                            case ArmyType.Unknown:
+                                item.Time *= speed_list[ArmySpeedBox.SelectedIndex];
+                                break;
+                        }
+                    }
+                }
+            }
+
+            int card2 = 0;
+            int card3 = 0;
+            int card5 = 0;
+
+            variants.Add(attacks);
+            Parse(attacks, (x) => x.EnableCap(viewModel.Config.Delta), 0, attacks.Count);
             
             if (TryParseToDigit(X2Box,out card2) > 0)
             {
@@ -192,22 +349,22 @@ namespace Timinger
                 if (good && (temp < result_time || result_time == 0))
                 {
                     result_time = item[item.Count-1].Time - item[0].Time;
-                    last_best = item;
+                    target.Best = item;
                 }
             }
 
-            if (last_best == null)
+            if (target.Best == null)
                 NoResultDialog();
             else
             {
-                foreach (var item in last_best)
+                foreach (var item in target.Best)
                 {
                     if (item.armytype == ArmyType.Unknown)
                         item.armytype = ArmyType.Army;
                 }
-                last_best.Reverse();
-                TotalTimeTextBlock.Text = Timinger.Language.TotalTimeToAttack + strfun.SecondsToTimeString(last_best.First().Time - last_best.Last().Time);
-                ResultGrid.ItemsSource = last_best;
+                target.Best.Reverse();
+                TotalTimeTextBlock.Text = Timinger.Language.TotalTimeToAttack + ": " + strfun.SecondsToTimeString(target.Best.First().Time - target.Best.Last().Time);
+                ResultGrid.ItemsSource = target.Best;
             }
             
         }
@@ -288,7 +445,7 @@ namespace Timinger
 
         private void ShowHelpMenu(object sender, RoutedEventArgs e)
         {
-            HelpWindow helpWindow = new HelpWindow();
+            HelpWindow helpWindow = new HelpWindow(viewModel.Language);
             helpWindow.Owner = this;
             helpWindow.Closed += (object obj, EventArgs a ) => this.IsEnabled = true;
             this.IsEnabled = false;
@@ -296,13 +453,21 @@ namespace Timinger
         }
         private void ShowDonateMenu(object sender, RoutedEventArgs e)
         {
-            DonateWindow donateWindow = new DonateWindow();
+            DonateWindow donateWindow = new DonateWindow(viewModel.Language);
             donateWindow.Owner = this;
             donateWindow.Closed += (object obj, EventArgs a) => this.IsEnabled = true;
             this.IsEnabled = false;
             donateWindow.Show();
         }
-        
+        private void ShowAboutWindow(object sender, RoutedEventArgs e)
+        {
+            AboutWindow window = new AboutWindow(viewModel.Language);
+            window.Owner = this;
+            window.Closed += (object obj,EventArgs args) =>this.IsEnabled = true;
+            this.IsEnabled = false;
+            window.Show();
+        }
+
         private void SwitchToRUS(object sender, RoutedEventArgs e)
         {
             viewModel.SwitchLanguage("RUS");
@@ -327,6 +492,7 @@ namespace Timinger
             ColumnName2.Header = Timinger.Language.Name;
             ColumnTime.Header = Timinger.Language.Time;
             ColumnTime2.Header = Timinger.Language.Time;
+            ColumnActive.Header = Timinger.Language.Active;
         }
 
         private void TestButton(object sender, RoutedEventArgs e)
@@ -349,14 +515,20 @@ namespace Timinger
                 var x = (Button)e.Source;
                 if (x.Name == "ButtonCopyAttack")
                 {
-                    CopyWindow copyWindow = new CopyWindow(target.Name, target.attacks.ToList());
+                    CopyWindow copyWindow = new CopyWindow(viewModel.Language,target.Name, target.attacks.ToList());
+                    copyWindow.Owner = this;
+                    copyWindow.Closed += (object obj, EventArgs a) => this.IsEnabled = true;
+                    this.IsEnabled = false;
                     copyWindow.Show();
                 }
                 else
                 {
-                    if (last_best != null)
+                    if (target.Best != null)
                     {
-                        CopyWindow copyWindow = new CopyWindow(target.Name, last_best);
+                        CopyWindow copyWindow = new CopyWindow(viewModel.Language,target.Name, target.Best);
+                        copyWindow.Owner = this;
+                        copyWindow.Closed += (object obj, EventArgs a) => this.IsEnabled = true;
+                        this.IsEnabled = false;
                         copyWindow.Show();
                     }
                 }
@@ -369,9 +541,11 @@ namespace Timinger
             {
                 AttacksGrid.ItemsSource = null;
                 AttacksGrid.ItemsSource = target.attacks;
-                last_best = null;
-                ResultGrid.ItemsSource = last_best;
-                TotalTimeTextBlock.Text = "";
+                ResultGrid.ItemsSource = target.Best;
+                if (target.Best != null)
+                    TotalTimeTextBlock.Text = Timinger.Language.TotalTimeToAttack + ": " + strfun.SecondsToTimeString(target.Best.First().Time - target.Best.Last().Time);
+                else
+                    TotalTimeTextBlock.Text = "";
             }
         }
 
@@ -389,9 +563,9 @@ namespace Timinger
             }
             targets.Clear();
             variants.Clear();
-            last_best = null;
             target = null;
             AttacksGrid.ItemsSource = null;
+            ResultGrid.ItemsSource = null;
             viewModel.TimPath = null;
 
         }
@@ -433,19 +607,34 @@ namespace Timinger
             fileDialog.Filter = "Timinger file (*.tim)|*tim";
             if((bool)fileDialog.ShowDialog())
             {
-                viewModel.TimPath = fileDialog.FileName;
-                BinaryFormatter binary = new BinaryFormatter();
-                using (FileStream stream = new FileStream(viewModel.TimPath, FileMode.Open))
-                {
-                    targets = (ObservableCollection<Target>)binary.Deserialize(stream);
-                    TargetGrid.ItemsSource = targets;
-                }
+                LoadProject(fileDialog.FileName);
+            }
+        }
+        private void LoadProject(string path)
+        {
+            viewModel.TimPath = path;
+            BinaryFormatter binary = new BinaryFormatter();
+            using (FileStream stream = new FileStream(viewModel.TimPath, FileMode.Open))
+            {
+                targets = (ObservableCollection<Target>)binary.Deserialize(stream);
+                TargetGrid.ItemsSource = targets;
+                AttacksGrid.ItemsSource = null;
+                ResultGrid.ItemsSource = null;
             }
         }
 
+        private void UnsafeSettingsOn(object sender, RoutedEventArgs e)
+        {
+            if(UnlockUnsafeSettings.IsChecked == true)
+            {
+                MessageBox.Show(Timinger.Language.UnsafeWarning);
+            }
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
+        }
     }   
-    public class Test
-    {
-        public string Path { get; set; } = "Pathes";
-    }
 }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Timinger"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Timinger.MainWindow"
         mc:Ignorable="d"
-        Title="{Binding StringFormat=Timinger - {0}, Path=TimPath, TargetNullValue=Timinger}" Height="480" Width="700" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+        Title="{Binding StringFormat=Timinger - {0}, Path=TimPath, TargetNullValue=Timinger}" Height="480" Width="700" MinHeight="480" MinWidth="700" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <Window.Resources>
         <Style x:Key="ColumnStyle">
             <Setter Property="TextBlock.TextAlignment" Value="Center"/>
@@ -66,11 +66,11 @@
                 <MenuItem x:Name="Menu_exit" Header="{Binding Path=Language.Exit}" Click="CloseWindow"/>
             </MenuItem>
             <MenuItem x:Name="Menu_help" Header="{Binding Path=Language.Help}" Click="ShowHelpMenu"/>
-            <MenuItem x:Name="Menu_language" Header="{Binding Path=Language.Lang}">
-                <MenuItem Header="Русский" Click="SwitchToRUS"/>
-                <MenuItem Header="English" Click="SwitchToENG"/>
+            <MenuItem x:Name="Menu_language" IsEnabled="False" Header="{Binding Path=Language.Lang}">
+                <MenuItem IsCheckable="True" IsChecked="{Binding Path=RusLang}" Header="Русский" Click="SwitchToRUS"/>
+                <MenuItem IsCheckable="True" IsChecked="{Binding Path=EngLang}" Header="English" Click="SwitchToENG"/>
             </MenuItem>
-
+            <MenuItem Header="{Binding Path=Language.AboutProgram}" Click="ShowAboutWindow"/>
             <MenuItem x:Name="Menu_donate" Header="{Binding Path=Language.Donate}" Click="ShowDonateMenu"/>
         </Menu>
 
@@ -96,11 +96,12 @@
                     <RowDefinition/>
                     <RowDefinition Height="23"/>
                 </Grid.RowDefinitions>
-                <DataGrid AutoGenerateColumns="False" x:Name="AttacksGrid" Grid.Row="0" Margin="2,2,2,2">
+                <DataGrid AutoGenerateColumns="False" RowBackground="White" AlternatingRowBackground="LightGray" x:Name="AttacksGrid" Grid.Row="0" Margin="2,2,2,2">
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="ColumnName" Header="{Binding Path=Test}" Width="100" Binding="{Binding Path=Name}"/>
                         <DataGridTextColumn x:Name="ColumnTime" Header="Error" Width="60" Binding="{Binding Path=TimeStr}"/>
                         <DataGridComboBoxColumn x:Name="ColumnArmyType" Header="Error" Width="100" ItemsSource="{Binding Source={x:Static local:Language.types}}" SelectedValueBinding="{Binding Path=ArmyTypeStr}"/>
+                        <DataGridCheckBoxColumn x:Name="ColumnActive" Header="Error" Width="60"  Binding="{Binding Path=Active}"/>
                     </DataGrid.Columns>
                 </DataGrid>
                 <DockPanel Grid.Row="1">
@@ -140,14 +141,14 @@
                 <TextBlock x:Name="Card5xTextBlock" Grid.Row="3" Grid.Column="0" Text="{Binding StringFormat={}{0} 5x:, Path=Language.Cards}" VerticalAlignment="Center"/>
                 <TextBox x:Name="X5Box" Text="0" Grid.Column="1" Grid.Row="3" Margin="5 0 0 0" HorizontalAlignment="Stretch" Height="23"/>
 
-                <Button x:Name="Button_count" Content="{Binding Path=Language.Recount}" Grid.ColumnSpan="2" Grid.Row="4" HorizontalAlignment="Stretch" Height="25" Click="FindBest"/>
+                <Button x:Name="Button_count" Content="{Binding Path=Language.Recount}" Grid.ColumnSpan="2" Grid.Row="4" HorizontalAlignment="Stretch" Height="25" Click="Test"/>
                 <CheckBox x:Name="CheckBoxForceCaptain" IsChecked="True" Grid.Row="5" Grid.ColumnSpan="2" Content="{Binding Path=Language.ForceCaptain}" VerticalAlignment="Center"/>
             </Grid>
         </GroupBox>
 
         <GroupBox Grid.Column="0" Grid.Row="2" Margin="10,0,0,5">
             <GroupBox.Header>
-                <CheckBox x:Name="UnlockUnsafeSettings" Content="{Binding Path=Language.Unlock}"/>
+                <CheckBox x:Name="UnlockUnsafeSettings" Content="{Binding Path=Language.Unlock}" Click="UnsafeSettingsOn"/>
             </GroupBox.Header>
 
             <Grid x:Name="UnsafeSettings" Style="{StaticResource UnlockUnsafe_Res}" HorizontalAlignment="Stretch" Margin="0,0,4,4" VerticalAlignment="Stretch" RenderTransformOrigin="0.463,0.5">
@@ -169,8 +170,8 @@
                 <TextBlock x:Name="CapSpeedTextBlock" Grid.Row="1" Grid.Column="0" Text="{Binding Path=Language.Cap}" VerticalAlignment="Center"/>
                 <ComboBox x:Name="CapSpeedBox" ItemsSource="{Binding Source={x:Static local:MainWindow.speed_str}}" SelectedIndex="8" Margin="5 0 0 0" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="23"/>
 
-                <TextBlock x:Name="TextBlockDelta" Grid.Row="2" Grid.Column="0" Text="{Binding Path=Language.Delta}" VerticalAlignment="Center"/>
-                <TextBox Text="3.00" Margin="5 0 0 0" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="23"/>
+                <TextBlock x:Name="TextBlockDelta" ToolTip="{Binding Path=Language.ToolTipDelta}" Grid.Row="2" Grid.Column="0" Text="{Binding Path=Language.Delta}" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding Path=Config.Delta}" ToolTip="{Binding Path=Language.ToolTipDelta}" Margin="5 0 0 0" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="23"/>
 
 
             </Grid>
@@ -183,7 +184,7 @@
                     <RowDefinition Height="23"/>
                 </Grid.RowDefinitions>
 
-                <DataGrid x:Name="ResultGrid" AutoGenerateColumns="False" Grid.Row="0" HorizontalAlignment="Stretch" Margin="2,2,2,2" VerticalAlignment="Stretch">
+                <DataGrid x:Name="ResultGrid" CanUserSortColumns="False" IsReadOnly="True" AutoGenerateColumns="False" RowBackground="White" AlternatingRowBackground="LightGray" Grid.Row="0" HorizontalAlignment="Stretch" Margin="2,2,2,2" VerticalAlignment="Stretch">
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="ColumnName2" Header="Имя" Width="100" Binding="{Binding Name}"/>
                         <DataGridTextColumn x:Name="ColumnTime2" Header="Время" Width="60" Binding="{Binding TimeStr}"/>
@@ -198,6 +199,9 @@
 
         <StatusBar Grid.ColumnSpan="3" Grid.Row="3">
             <TextBlock Text="{Binding Path=Language.StatusBarText}" Margin="10 0 0 0"/>
+            <TextBlock>
+                <Hyperlink NavigateUri="https://vk.com/club168647995" RequestNavigate="Hyperlink_RequestNavigate">https://vk.com/club168647995</Hyperlink>
+            </TextBlock>
         </StatusBar>
     </Grid>
 </Window>

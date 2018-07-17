@@ -52,7 +52,7 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>img_514371.ico</ApplicationIcon>
+    <ApplicationIcon>timinger.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -75,13 +75,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CopyWindow.xaml.cs">
+    <Compile Include="src\ThreadArgs.cs" />
+    <Compile Include="win\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="win\CopyWindow.xaml.cs">
       <DependentUpon>CopyWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DonateWindow.xaml.cs">
+    <Compile Include="win\DonateWindow.xaml.cs">
       <DependentUpon>DonateWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HelpWindow.xaml.cs">
+    <Compile Include="win\HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\Config.cs" />
@@ -90,21 +94,25 @@
     <Compile Include="src\Target.cs" />
     <Compile Include="src\TopicClass.cs" />
     <Compile Include="src\ViewModel.cs" />
-    <Compile Include="Temp.xaml.cs">
+    <Compile Include="win\Temp.xaml.cs">
       <DependentUpon>Temp.xaml</DependentUpon>
     </Compile>
     <Compile Include="win\LanguageWindow.xaml.cs">
       <DependentUpon>LanguageWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="CopyWindow.xaml">
+    <Page Include="win\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DonateWindow.xaml">
+    <Page Include="win\CopyWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="HelpWindow.xaml">
+    <Page Include="win\DonateWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="win\HelpWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -121,11 +129,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="res\Topics.xaml">
+    <Page Include="win\res\Topics.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Temp.xaml">
+    <Page Include="win\Temp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -173,7 +181,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="img_514371.ico" />
+    <Resource Include="timinger.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="win\res\timinger_image.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

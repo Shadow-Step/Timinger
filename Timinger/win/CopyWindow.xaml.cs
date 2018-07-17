@@ -21,12 +21,16 @@ namespace Timinger
     {
         string target_name;
         List<Attack> list;
+        Timinger.Language language;
 
-        public CopyWindow(string target_name, List<Attack> list)
+        public CopyWindow(Timinger.Language language, string target_name, List<Attack> list)
         {
             this.target_name = target_name;
             this.list = list;
             InitializeComponent();
+            this.DataContext = language;
+            
+            
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {

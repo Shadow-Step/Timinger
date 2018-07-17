@@ -12,7 +12,7 @@ namespace Timinger
     {
         public string Name { get; set; }
         public ObservableCollection<Attack> attacks = new ObservableCollection<Attack>();
-       
+        public List<Attack> Best { get; set; }
         public Target(string name)
         {
             Name = name;

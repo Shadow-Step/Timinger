@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace Timinger
 {
-    class Language
+    public class Language
     {
+        public Language()
+        {
+
+        }
         public Language(string local)
         {
             switch (local)
@@ -42,7 +46,9 @@ namespace Timinger
 
         public static string RestTime { get; set; } = "Ожидание";
         public static string Discipline { get; set; } = "Дисциплина";
-        public static string Recount { get; set; } = "Просчитать";
+        public static string Recount { get; set; } = "Посчитать";
+        public static string No { get; set; } = "Нет";
+        public static string Active { get; set; } = "Активна";
 
         //Menu
         public static string File { get; set; } = "Файл";
@@ -68,23 +74,43 @@ namespace Timinger
         public static string Card5x { get; set; } = "Карты х5";
 
         public static string Delta { get; set; } = "Дельта";
+        public static string Text { get; set; } = "Текст";
+        public static string Filters { get; set; } = "Фильтры";
+        public static string TargetName { get; set; } = "Название цели";
+        public static string AttackName { get; set; } = "Название атаки";
+        public static string TypeArmy { get; set; } = "Тип армии";
 
-        public static string TotalTimeToAttack { get; set; } = "Общее время для атаки: ";
+        public static string TotalTimeToAttack { get; set; } = "Общее время для атаки";
         public static string ExitMessage { get; set; } = "Вы уверены что хотите выйти?";
         public static string CreateNewFile { get; set; } = "Несохраненные данные будут утеряны, продолжить?";
-        public static string StatusBarText { get; set; } = "Текст статус бара";
+        public static string StatusBarText { get; set; } = "Не пропусти свежие обновления на ";
         public static string ForceCaptain { get; set; } = "Обязателен капитан";
         public static string NoSlotForCaptain { get; set; } = "Ни одна из атак не может быть капитаном. Измените тип атаки или выключите режим 'Обязателен капитан'";
         public static string NoVariants { get; set; } = "Не найдено ни одного подходящего варианта. Примените карты или уменьшите время ожидания";
+        public static string UnsafeWarning { get; set; } = "Внимание! Изменение параметров может привести к погрешностям в вычислениях, перепроверяйте результаты!";
+        public static string AboutProgram { get; set; } = "О программе";
+        public static string ToolTipDelta { get; set; } = "По-умолчанию - 3.00";
+        public static string CopyTextToBuffer { get; set; } = "Скопируйте текст в буфер обмена";
 
         public static void SwitchToRUS()
         {
+            CopyTextToBuffer = "Скопируйте текст в буфер обмена";
+            No = "Нет";
+            Active = "Активна";
+            AboutProgram = "О программе";
+            ToolTipDelta = "По-умолчанию - 3.00";
             CreateNewFile = "Несохраненные данные будут утеряны, продолжить?";
-            StatusBarText = "Текст статус бара";
+            StatusBarText = "Не пропусти свежие обновления на ";
             NoSlotForCaptain = "Ни одна из атак не может быть капитаном. Измените тип атаки или выключите режим 'Обязателен капитан'";
             NoVariants = "Не найдено ни одного подходящего варианта. Примените карты или уменьшите время ожидания";
             ForceCaptain = "Обязателен капитан";
+            UnsafeWarning = "Внимание! Изменение параметров может привести к погрешностям в вычислениях, перепроверяйте результаты!";
+            Text  = "Текст";
+            Filters = "Фильтры";
             Target = "Цель";
+            TargetName = "Название цели";
+            AttackName = "Название атаки";
+            TypeArmy = "Тип армии";
 
             Name = "Название";
             Time = "Время";
@@ -128,7 +154,7 @@ namespace Timinger
             Card3x = "Карты х3";
             Card5x = "Карты х5";
             Delta = "Дельта";
-            TotalTimeToAttack = "Общее время для атаки: ";
+            TotalTimeToAttack = "Общее время для атаки";
             ExitMessage = "Вы уверены что хотите выйти?";
 
             InitArmyTypes();
@@ -143,24 +169,34 @@ namespace Timinger
                 {Name,"NameDoc_RUS" },
                 {Time,"TimeDoc_RUS" },
                 {Type,"TypeDoc_RUS" },
+                {Active,"ActiveDoc_RUS" },
                 {Card,"CardDoc_RUS" },
                 {RestTime,"RestTimeDoc_RUS" },
                 {Targets,"TargetDoc_RUS" },
                 {Copy,"CopyDoc_RUS" },
                 {Unlock,"UnlockDoc_RUS" },
                 {Donate,"DonateDoc_RUS" },
-                {ForceCaptain,"ForceCaptainDoc_RUS" }
+                {ForceCaptain,"ForceCaptainDoc_RUS" },
+                {TotalTimeToAttack,"TotalTimeDoc_RUS" }
             };
             CurrentLanguage = "RUS";
         }
         public static void SwitchToENG()
         {
+            AboutProgram = "About program";
+            ToolTipDelta = "Default - 3.00";
             NoSlotForCaptain = "No slots for captain. Change army types or turn off 'Force captain'";
             StatusBarText = "Status bar text";
             NoVariants = "No variants. Apply several cards or reduce rest time";
             ForceCaptain = "Force captain";
             Target = "Target";
             CreateNewFile = "Unsaved data will be lost, continue?";
+            UnsafeWarning = "Warning! Changing parametrs and some text over here";
+            Text = "Text";
+            Filters = "Filters";
+            TargetName = "Target name";
+            AttackName = "Attack name";
+            TypeArmy = "Army type";
             Name = "Name";
             Time = "Time";
             Type = "Type";
@@ -203,7 +239,7 @@ namespace Timinger
             Card3x = "Cards х3";
             Card5x = "Cards х5";
             Delta = "Delta";
-            TotalTimeToAttack = "Total time for attack: ";
+            TotalTimeToAttack = "Total time for attack";
             ExitMessage = "Are you sure you want to quit?";
 
             type_dict = new Dictionary<string, ArmyType>()
@@ -224,7 +260,8 @@ namespace Timinger
                 {Copy,"CopyDoc_ENG" },
                 {Unlock,"UnlockDoc_ENG" },
                 {Donate,"DonateDoc_ENG" },
-                {ForceCaptain,"ForceCaptainDoc_ENG" }
+                {ForceCaptain,"ForceCaptainDoc_ENG" },
+                {TotalTimeToAttack,"TotalTimeDoc_ENG"}
             };
             CurrentLanguage = "ENG";
         }
@@ -236,7 +273,7 @@ namespace Timinger
             types[2] = ArmyType_Unknown;
         }
 
-        public static ObservableCollection<string> types = new ObservableCollection<string>() { ArmyType_Army + "!", ArmyType_Captain, ArmyType_Unknown };
+        public static ObservableCollection<string> types = new ObservableCollection<string>() { ArmyType_Army, ArmyType_Captain, ArmyType_Unknown };
         public static Dictionary<string, ArmyType> type_dict = new Dictionary<string, ArmyType>()
         {
             {ArmyType_Army,ArmyType.Army },
@@ -248,13 +285,15 @@ namespace Timinger
             {Name,"NameDoc_RUS" },
             {Time,"TimeDoc_RUS" },
             {Type,"TypeDoc_RUS" },
+            {Active,"ActiveDoc_RUS" },
             {Card,"CardDoc_RUS" },
             {RestTime,"RestTimeDoc_RUS" },
             {Targets,"TargetDoc_RUS" },
             {Copy,"CopyDoc_RUS" },
             {Unlock,"UnlockDoc_RUS" },
             {Donate,"DonateDoc_RUS" },
-            {ForceCaptain,"ForceCaptainDoc_RUS" }
+            {ForceCaptain,"ForceCaptainDoc_RUS" },
+            {TotalTimeToAttack,"TotalTimeDoc_RUS" }
         };
     }
 }

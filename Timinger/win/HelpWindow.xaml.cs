@@ -21,11 +21,12 @@ namespace Timinger
     /// </summary>
     public partial class HelpWindow : Window
     {
-        private List<TopicClass> topic_list = new List<TopicClass>();
         private string selected;
-        public HelpWindow()
+
+        public HelpWindow(Timinger.Language language)
         {
             InitializeComponent();
+            this.DataContext = language;
             TopicListBox.ItemsSource = Timinger.Language.topics;
         }
 

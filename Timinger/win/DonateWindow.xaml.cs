@@ -19,9 +19,10 @@ namespace Timinger
     /// </summary>
     public partial class DonateWindow : Window
     {
-        public DonateWindow()
+        public DonateWindow(Timinger.Language language)
         {
             InitializeComponent();
+            this.DataContext = language;
             DonateTextBox.Document = (FlowDocument)this.FindResource(Timinger.Language.topics[Timinger.Language.Donate]);
         }
     }

@@ -13,6 +13,8 @@ namespace Timinger
         Dictionary<string, string> config = new Dictionary<string, string>()
         {
             {"Language","RUS"},
+            {"Delta","3.00"},
+            {"LastProjectPath",""},
         };
 
         public string Language
@@ -26,7 +28,28 @@ namespace Timinger
                 config["Language"] = value;
             }
         }
+        public string LastProjectPath
+        {
+            get { return config["LastProjectPath"]; }
+            set { config["LastProjectPath"] = value; }
+        }
+
+        private double delta = 0;
+        public double Delta
+        {
+            get
+            {
+                if (delta == 0)
+                    double.TryParse(ParseDelta(), out delta);
+                return delta == 0 ? 3.00 : delta;
+            }
+            set
+            {
+                delta = value; config["Delta"] = value.ToString();
+            }
+        }
         
+
         public void LoadFromFile()
         {
             string data;
@@ -67,6 +90,11 @@ namespace Timinger
                 }
                 writer.Close();
             }
+        }
+        
+        private string ParseDelta()
+        {
+            return config["Delta"].Replace('.', ',');
         }
     }
 }

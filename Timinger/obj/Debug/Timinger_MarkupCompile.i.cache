@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\ProjectsFolder\C# Projects\Timinger\Timinger\obj\Debug\
+D:\Projects\Timinger\Timinger\obj\Debug\
 Timinger
 none
 false
 DEBUG;TRACE
-D:\ProjectsFolder\C# Projects\Timinger\Timinger\App.xaml
-71149589171
+D:\Projects\Timinger\Timinger\App.xaml
+8-1895431002
 
-21-1092908146
+23125550280
 131569487696
-CopyWindow.xaml;DonateWindow.xaml;HelpWindow.xaml;MainWindow.xaml;res\Topics.xaml;Temp.xaml;win\LanguageWindow.xaml;
+win\AboutWindow.xaml;win\CopyWindow.xaml;win\DonateWindow.xaml;win\HelpWindow.xaml;MainWindow.xaml;win\res\Topics.xaml;win\Temp.xaml;win\LanguageWindow.xaml;
 
-False
+True
 

@@ -28,7 +28,7 @@ namespace Timinger
     [Serializable]
     public class Attack : IComparable<Attack>, ICloneable
     {
-        public static double delta = 3.00; //3.018
+        //public static double delta = 3.00; //3.018
 
         public string   Name { get; set; }
 
@@ -65,7 +65,7 @@ namespace Timinger
                 switch (Card)
                 {
                     case CardEffect.none:
-                        return "none";
+                        return Language.No;
                     case CardEffect.x2:
                         return "x2";
                     case CardEffect.x3:
@@ -77,10 +77,11 @@ namespace Timinger
                     case CardEffect.x6:
                         return "x6";
                     default:
-                        return "none";
+                        return Language.No;
                 }
             }
         }
+        public bool Active { get; set; } = true;
 
         public Attack(string name, double time, string type)
         {
@@ -88,15 +89,16 @@ namespace Timinger
             Time = time;
             ArmyTypeStr = type;
         }
-        public Attack(string name, double time,ArmyType type,CardEffect card)
+        public Attack(string name, double time,ArmyType type,CardEffect card, bool active)
         {
             Name = name;
             Time = time;
             Card = card;
             armytype = type;
+            Active = active;
         }
 
-        public bool EnableCap()
+        public bool EnableCap(double delta)
         {
             if (armytype == ArmyType.Unknown)
             {
@@ -144,7 +146,7 @@ namespace Timinger
         }
         public object Clone()
         {
-            return new Attack(this.Name, this.Time,this.armytype,this.Card);
+            return new Attack(this.Name, this.Time,this.armytype,this.Card, this.Active);
         }
     }
 }

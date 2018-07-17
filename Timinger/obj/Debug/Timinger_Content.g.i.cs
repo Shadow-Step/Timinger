@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("img_514371.ico")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("win/res/timinger_image.png")]
 
 
