@@ -49,6 +49,5 @@ d:\Projects\Timinger\Timinger\obj\Debug\win\Temp.baml
 d:\Projects\Timinger\Timinger\obj\Debug\MainWindow.g.cs
 d:\Projects\Timinger\Timinger\obj\Debug\MainWindow.baml
 d:\Projects\Timinger\Timinger\obj\Debug\win\res\Topics.baml
-d:\Projects\Timinger\Timinger\obj\Debug\Timinger.csprojAssemblyReference.cache
 d:\Projects\Timinger\Timinger\obj\Debug\win\AboutWindow.g.cs
 d:\Projects\Timinger\Timinger\obj\Debug\win\AboutWindow.baml

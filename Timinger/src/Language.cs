@@ -83,7 +83,7 @@ namespace Timinger
         public static string TotalTimeToAttack { get; set; } = "Общее время для атаки";
         public static string ExitMessage { get; set; } = "Вы уверены что хотите выйти?";
         public static string CreateNewFile { get; set; } = "Несохраненные данные будут утеряны, продолжить?";
-        public static string StatusBarText { get; set; } = "Не пропусти свежие обновления на ";
+        public static string StatusBarText { get; set; } = "Не пропусти свежие обновления в группе ВК ";
         public static string ForceCaptain { get; set; } = "Обязателен капитан";
         public static string NoSlotForCaptain { get; set; } = "Ни одна из атак не может быть капитаном. Измените тип атаки или выключите режим 'Обязателен капитан'";
         public static string NoVariants { get; set; } = "Не найдено ни одного подходящего варианта. Примените карты или уменьшите время ожидания";
@@ -91,16 +91,24 @@ namespace Timinger
         public static string AboutProgram { get; set; } = "О программе";
         public static string ToolTipDelta { get; set; } = "По-умолчанию - 3.00";
         public static string CopyTextToBuffer { get; set; } = "Скопируйте текст в буфер обмена";
+        public static string NotEnoughAttacks { get; set; } = "Требуется минимум 2 активные атаки.";
+        public static string Abort { get; set; } = "Прервать";
+        public static string Variants { get; set; } = "Вариантов";
+        public static string FAQ { get; set; } = "FAQ";
 
         public static void SwitchToRUS()
         {
+            FAQ = "FAQ";
+            Variants = "Вариантов";
+            Abort = "Прервать";
+            NotEnoughAttacks = "Требуется минимум 2 активные атаки.";
             CopyTextToBuffer = "Скопируйте текст в буфер обмена";
             No = "Нет";
             Active = "Активна";
             AboutProgram = "О программе";
             ToolTipDelta = "По-умолчанию - 3.00";
             CreateNewFile = "Несохраненные данные будут утеряны, продолжить?";
-            StatusBarText = "Не пропусти свежие обновления на ";
+            StatusBarText = "Не пропусти свежие обновления в группе ВК ";
             NoSlotForCaptain = "Ни одна из атак не может быть капитаном. Измените тип атаки или выключите режим 'Обязателен капитан'";
             NoVariants = "Не найдено ни одного подходящего варианта. Примените карты или уменьшите время ожидания";
             ForceCaptain = "Обязателен капитан";
@@ -177,7 +185,8 @@ namespace Timinger
                 {Unlock,"UnlockDoc_RUS" },
                 {Donate,"DonateDoc_RUS" },
                 {ForceCaptain,"ForceCaptainDoc_RUS" },
-                {TotalTimeToAttack,"TotalTimeDoc_RUS" }
+                {TotalTimeToAttack,"TotalTimeDoc_RUS" },
+                {FAQ, "FAQDoc_RUS" }
             };
             CurrentLanguage = "RUS";
         }
@@ -293,7 +302,8 @@ namespace Timinger
             {Unlock,"UnlockDoc_RUS" },
             {Donate,"DonateDoc_RUS" },
             {ForceCaptain,"ForceCaptainDoc_RUS" },
-            {TotalTimeToAttack,"TotalTimeDoc_RUS" }
+            {TotalTimeToAttack,"TotalTimeDoc_RUS" },
+            {FAQ,"FAQDoc_RUS" },
         };
     }
 }

@@ -52,5 +52,14 @@ namespace Timinger
             }
             return result;
         }
+        public static List<Attack> CopyList(List<Attack> parent)
+        {
+            List<Attack> result = new List<Attack>(parent.Count);
+            foreach (var item in parent)
+            {
+                result.Add((Attack)item.Clone());
+            }
+            return result;
+        }
     }
 }

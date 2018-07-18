@@ -30,7 +30,6 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        
         <Style TargetType="DataGridRow" x:Key="SelectedRow_Res">
 
             <Style.Triggers>
@@ -39,7 +38,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
     </Window.Resources>
     <Grid>
 
@@ -80,25 +79,25 @@
                     <RowDefinition/>
                     <RowDefinition Height="23"/>
                 </Grid.RowDefinitions>
-                
-                <DataGrid RowStyle="{StaticResource SelectedRow_Res}" x:Name="TargetGrid" ItemsSource="{Binding Source={x:Static local:MainWindow.targets}}" Grid.Row="0" GridLinesVisibility="None" HeadersVisibility="None" AutoGenerateColumns="False" Margin="2,2,2,2" SelectionChanged="TargetChanged">
+
+                <DataGrid RowStyle="{StaticResource SelectedRow_Res}" x:Name="TargetGrid" ItemsSource="{Binding Path=Targets}" SelectedItem="{Binding Path=Target}" Grid.Row="0" GridLinesVisibility="None" HeadersVisibility="None" AutoGenerateColumns="False" Margin="2,2,2,2">
                     <DataGrid.Columns>
                         <DataGridTextColumn Width="*" Binding="{Binding Name}"/>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button x:Name="ButtonAddTarget" Grid.Row="1" Content="{Binding Path=Language.Add}" Width="100" Height="23" VerticalAlignment="Stretch" Click="AddTarget"/>
+                <Button x:Name="ButtonAddTarget" IsEnabled="{Binding Path=IsAlive}" Grid.Row="1" Content="{Binding Path=Language.Add}" Width="100" Height="23" VerticalAlignment="Stretch" Click="AddTarget"/>
             </Grid>
         </GroupBox>
 
-        <GroupBox x:Name="GroupBoxAttacks" Style="{StaticResource UnlockGroupBoxes}" Grid.Column="1" Grid.Row="1" Header="{Binding Path=Language.Attacks}">
+        <GroupBox x:Name="GroupBoxAttacks" IsEnabled="{Binding Path=IsAlive}" Grid.Column="1" Grid.Row="1" Header="{Binding Path=Language.Attacks}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="23"/>
                 </Grid.RowDefinitions>
-                <DataGrid AutoGenerateColumns="False" RowBackground="White" AlternatingRowBackground="LightGray" x:Name="AttacksGrid" Grid.Row="0" Margin="2,2,2,2">
+                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=Target.Attacks}" RowBackground="White" AlternatingRowBackground="LightGray" x:Name="AttacksGrid" Grid.Row="0" Margin="2,2,2,2">
                     <DataGrid.Columns>
-                        <DataGridTextColumn x:Name="ColumnName" Header="{Binding Path=Test}" Width="100" Binding="{Binding Path=Name}"/>
+                        <DataGridTextColumn x:Name="ColumnName" Header="Error" Width="100" Binding="{Binding Path=Name}"/>
                         <DataGridTextColumn x:Name="ColumnTime" Header="Error" Width="60" Binding="{Binding Path=TimeStr}"/>
                         <DataGridComboBoxColumn x:Name="ColumnArmyType" Header="Error" Width="100" ItemsSource="{Binding Source={x:Static local:Language.types}}" SelectedValueBinding="{Binding Path=ArmyTypeStr}"/>
                         <DataGridCheckBoxColumn x:Name="ColumnActive" Header="Error" Width="60"  Binding="{Binding Path=Active}"/>
@@ -110,11 +109,11 @@
                     <ComboBox x:Name="DefaultArmyTypeBox" ItemsSource="{Binding Source={x:Static local:Language.types}}" SelectedIndex="2" Width="100" Margin="5 0 0 0"/>
                     <Button x:Name="ButtonCopyAttack" MinWidth="60" Content="{Binding Path=Language.Copy}" VerticalAlignment="Stretch" HorizontalAlignment="Right" Click="ShowCopyScreen"/>
                 </DockPanel>
-                
+
             </Grid>
         </GroupBox>
 
-        <GroupBox x:Name="GroupBoxOptions" Grid.Column="2" Grid.Row="1" Style="{StaticResource UnlockGroupBoxes}" Header="{Binding Path=Language.Options}" Margin="0,0,10,0">
+        <GroupBox x:Name="GroupBoxOptions" Grid.Column="2" Grid.Row="1" Header="{Binding Path=Language.Options}" Margin="0,0,10,0">
             <Grid HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
@@ -130,25 +129,25 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock x:Name="RestTimeTextBlock" Grid.Column="0" Grid.Row="0" Text="{Binding Path=Language.RestTime}" VerticalAlignment="Center"/>
-                <TextBox x:Name="RestTimeTextBox" Text="30" Margin="5,0,0,0" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Height="23"/>
+                <TextBox IsEnabled="{Binding Path=IsAlive}" x:Name="RestTimeTextBox" Text="{Binding Path=RestTime}" Margin="5,0,0,0" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Height="23"/>
 
                 <TextBlock x:Name="Card2xTextBlock" Grid.Row="1" Grid.Column="0" Text="{Binding StringFormat={}{0} 2x:, Path=Language.Cards}" VerticalAlignment="Center"/>
-                <TextBox x:Name="X2Box" Text="0" Grid.Column="1" Grid.Row="1" Margin="5 0 0 0" HorizontalAlignment="Stretch" Height="23"/>
+                <TextBox x:Name="X2Box" IsEnabled="{Binding Path=IsAlive}" Text="{Binding Path=Card2}" Grid.Column="1" Grid.Row="1" Margin="5 0 0 0" HorizontalAlignment="Stretch" Height="23"/>
 
                 <TextBlock x:Name="Card3xTextBlock" Grid.Row="2" Grid.Column="0" Text="{Binding StringFormat={}{0} 3x:, Path=Language.Cards}" VerticalAlignment="Center"/>
-                <TextBox x:Name="X3Box" Text="0" Grid.Column="1" Grid.Row="2" Margin="5 0 0 0" HorizontalAlignment="Stretch" Height="23"/>
+                <TextBox x:Name="X3Box" IsEnabled="{Binding Path=IsAlive}" Text="{Binding Path=Card3}" Grid.Column="1" Grid.Row="2" Margin="5 0 0 0" HorizontalAlignment="Stretch" Height="23"/>
 
                 <TextBlock x:Name="Card5xTextBlock" Grid.Row="3" Grid.Column="0" Text="{Binding StringFormat={}{0} 5x:, Path=Language.Cards}" VerticalAlignment="Center"/>
-                <TextBox x:Name="X5Box" Text="0" Grid.Column="1" Grid.Row="3" Margin="5 0 0 0" HorizontalAlignment="Stretch" Height="23"/>
+                <TextBox x:Name="X5Box" IsEnabled="{Binding Path=IsAlive}" Text="{Binding Path=Card5}" Grid.Column="1" Grid.Row="3" Margin="5 0 0 0" HorizontalAlignment="Stretch" Height="23"/>
 
-                <Button x:Name="Button_count" Content="{Binding Path=Language.Recount}" Grid.ColumnSpan="2" Grid.Row="4" HorizontalAlignment="Stretch" Height="25" Click="Test"/>
-                <CheckBox x:Name="CheckBoxForceCaptain" IsChecked="True" Grid.Row="5" Grid.ColumnSpan="2" Content="{Binding Path=Language.ForceCaptain}" VerticalAlignment="Center"/>
+                <Button x:Name="Button_count" Content="{Binding Path=IsAliveStr}" Grid.ColumnSpan="2" Grid.Row="4" HorizontalAlignment="Stretch" Height="25" Click="Test"/>
+                <CheckBox x:Name="CheckBoxForceCaptain" IsEnabled="{Binding Path=IsAlive}" IsChecked="{Binding Path=ForceCaptain}" Grid.Row="5" Grid.ColumnSpan="2" Content="{Binding Path=Language.ForceCaptain}" VerticalAlignment="Center"/>
             </Grid>
         </GroupBox>
 
-        <GroupBox Grid.Column="0" Grid.Row="2" Margin="10,0,0,5">
+        <GroupBox Grid.Column="0" IsEnabled="{Binding Path=IsAlive}" Grid.Row="2" Margin="10,0,0,5">
             <GroupBox.Header>
-                <CheckBox x:Name="UnlockUnsafeSettings" Content="{Binding Path=Language.Unlock}" Click="UnsafeSettingsOn"/>
+                <CheckBox x:Name="UnlockUnsafeSettings" IsChecked="{Binding Path=UnsafeMode}" Content="{Binding Path=Language.Unlock}" Click="UnsafeSettingsOn"/>
             </GroupBox.Header>
 
             <Grid x:Name="UnsafeSettings" Style="{StaticResource UnlockUnsafe_Res}" HorizontalAlignment="Stretch" Margin="0,0,4,4" VerticalAlignment="Stretch" RenderTransformOrigin="0.463,0.5">
@@ -165,10 +164,10 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock x:Name="ArmySpeedTextBlock" Grid.Row="0" Grid.Column="0" Text="{Binding Path=Language.Army}" VerticalAlignment="Center"/>
-                <ComboBox x:Name="ArmySpeedBox" ItemsSource="{Binding Source={x:Static local:MainWindow.speed_str}}" Margin="5 0 0 0" SelectedIndex="8" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="23"/>
+                <ComboBox x:Name="ArmySpeedBox" ItemsSource="{Binding Source={x:Static local:MainWindow.speed_str}}" Margin="5 0 0 0" SelectedIndex="{Binding Path=ArmySpeedIndex}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="23"/>
 
                 <TextBlock x:Name="CapSpeedTextBlock" Grid.Row="1" Grid.Column="0" Text="{Binding Path=Language.Cap}" VerticalAlignment="Center"/>
-                <ComboBox x:Name="CapSpeedBox" ItemsSource="{Binding Source={x:Static local:MainWindow.speed_str}}" SelectedIndex="8" Margin="5 0 0 0" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="23"/>
+                <ComboBox x:Name="CapSpeedBox" ItemsSource="{Binding Source={x:Static local:MainWindow.speed_str}}" SelectedIndex="{Binding Path=CapSpeedIndex}" Margin="5 0 0 0" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="23"/>
 
                 <TextBlock x:Name="TextBlockDelta" ToolTip="{Binding Path=Language.ToolTipDelta}" Grid.Row="2" Grid.Column="0" Text="{Binding Path=Language.Delta}" VerticalAlignment="Center"/>
                 <TextBox Text="{Binding Path=Config.Delta}" ToolTip="{Binding Path=Language.ToolTipDelta}" Margin="5 0 0 0" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="23"/>
@@ -177,14 +176,14 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox x:Name="GroupBoxResult" Grid.Column="1" Grid.Row="2" Style="{StaticResource UnlockGroupBoxes}" Header="{Binding Path=Language.Result}" Margin="0,0,0,5">
+        <GroupBox x:Name="GroupBoxResult" IsEnabled="{Binding Path=IsAlive}" Grid.Column="1" Grid.Row="2" Style="{StaticResource UnlockGroupBoxes}" Header="{Binding Path=Language.Result}" Margin="0,0,0,5">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="23"/>
                 </Grid.RowDefinitions>
 
-                <DataGrid x:Name="ResultGrid" CanUserSortColumns="False" IsReadOnly="True" AutoGenerateColumns="False" RowBackground="White" AlternatingRowBackground="LightGray" Grid.Row="0" HorizontalAlignment="Stretch" Margin="2,2,2,2" VerticalAlignment="Stretch">
+                <DataGrid x:Name="ResultGrid" ItemsSource="{Binding Path=Target.Best}" CanUserSortColumns="False" IsReadOnly="True" AutoGenerateColumns="False" RowBackground="White" AlternatingRowBackground="LightGray" Grid.Row="0" HorizontalAlignment="Stretch" Margin="2,2,2,2" VerticalAlignment="Stretch">
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="ColumnName2" Header="Имя" Width="100" Binding="{Binding Name}"/>
                         <DataGridTextColumn x:Name="ColumnTime2" Header="Время" Width="60" Binding="{Binding TimeStr}"/>
@@ -192,16 +191,28 @@
                         <DataGridTextColumn x:Name="ColumnCard" Header="Карта" Width="60" Binding="{Binding CardStr}"/>
                     </DataGrid.Columns>
                 </DataGrid>
-                <TextBlock x:Name="TotalTimeTextBlock" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="TotalTimeTextBlock" Text="{Binding Path=Target.TotalTime}" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <Button x:Name="ButtonCopyResult" Grid.Row="1" Content="{Binding Path=Language.Copy}" MinWidth="60" VerticalAlignment="Stretch" HorizontalAlignment="Right" Click="ShowCopyScreen"/>
             </Grid>
         </GroupBox>
 
-        <StatusBar Grid.ColumnSpan="3" Grid.Row="3">
-            <TextBlock Text="{Binding Path=Language.StatusBarText}" Margin="10 0 0 0"/>
-            <TextBlock>
+        <StatusBar Grid.ColumnSpan="3"  Grid.Row="3">
+            <StatusBarItem>
+                <TextBlock Text="{Binding Path=Language.StatusBarText}" Margin="10 0 0 0"/>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock>
                 <Hyperlink NavigateUri="https://vk.com/club168647995" RequestNavigate="Hyperlink_RequestNavigate">https://vk.com/club168647995</Hyperlink>
-            </TextBlock>
+                </TextBlock>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock Text="{Binding Path=Variants}"/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right" Margin="0 0 5 0">
+                <ProgressBar Minimum="0" Maximum="100" Value="{Binding Path=TotalPercents}" Height="15" Width="100"/>
+            </StatusBarItem>
+            
         </StatusBar>
     </Grid>
 </Window>
