@@ -19,9 +19,31 @@ namespace Timinger
     /// </summary>
     public partial class LanguageWindow : Window
     {
-        public LanguageWindow()
+        MainWindow parent;
+        public Dictionary<string, string> locals = new Dictionary<string, string>()
+        {
+            {"Русский","RUS" },
+            {"English","ENG" }
+        };
+        public LanguageWindow(MainWindow mainWindow)
         {
             InitializeComponent();
+            parent = mainWindow;
+            ListBoxChosenLanguage.ItemsSource = locals;
+            ListBoxChosenLanguage.DisplayMemberPath = "Key";
+            ListBoxChosenLanguage.SelectedIndex = 0;
+        }
+
+        private void ListBoxChosenLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var local = (KeyValuePair<string,string>)ListBoxChosenLanguage.SelectedItem;
+            ViewModel.GetInstance().SwitchLanguage(local.Value);
+            parent.InitColumns();
+        }
+
+        private void ButtonAccept_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

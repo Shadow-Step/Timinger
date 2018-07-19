@@ -18,7 +18,7 @@
         <Image Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Width="64" Height="64" Source="res\timinger_image.png" Margin="10,10,10,10" VerticalAlignment="Top"/>
         <TextBlock Grid.Column="1" Grid.Row="0" FontSize="28" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10 0 0 0" Text="Timinger"/>
         <StackPanel Grid.ColumnSpan="2" Grid.Row="1" Margin="10 0 0 0" Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <TextBlock Text="&#169; Maxim Shimanski, 2018"/>
+            <TextBlock Text="&#169; Maxim Shimanski (BigPSoft), 2018"/>
             <TextBlock Text="Icon author - Gerd Altmann"/>
             <TextBlock Text="Version 1.0"/>
         </StackPanel>

@@ -6,6 +6,11 @@
         xmlns:local="clr-namespace:Timinger"
         mc:Ignorable="d"
         Title="LanguageWindow" Height="242.532" Width="205.26" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="UnlockButton">
+            
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -13,10 +18,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock x:Name="TextBlockSelectLanguage" Margin="5 5 5 5" Text="Choose language:" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-        <ListBox x:Name="ListBoxChosenLanguage" Margin="5 5 5 5" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <ListBoxItem>English</ListBoxItem>
-            <ListBoxItem>Русский</ListBoxItem>
-        </ListBox>
-        <Button x:Name="ButtonAccept" MinWidth="80" Margin="5 5 5 5" Content="Accept" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+        <ListBox x:Name="ListBoxChosenLanguage" Margin="5 5 5 5" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="ListBoxChosenLanguage_SelectionChanged"/>
+        <Button x:Name="ButtonAccept" MinWidth="80" Margin="5 5 5 5" Content="Accept" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Click="ButtonAccept_Click"/>
     </Grid>
 </Window>

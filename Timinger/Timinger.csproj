@@ -186,5 +186,11 @@
   <ItemGroup>
     <Resource Include="win\res\timinger_image.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="win\res\vkicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="win\res\facebookicon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

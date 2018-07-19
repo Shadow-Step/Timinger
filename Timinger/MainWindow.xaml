@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Timinger"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Timinger.MainWindow"
         mc:Ignorable="d"
-        Title="{Binding StringFormat=Timinger - {0}, Path=TimPath, TargetNullValue=Timinger}" Height="480" Width="700" MinHeight="480" MinWidth="700" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+        Title="{Binding StringFormat=Timinger - {0}, Path=TimPath, TargetNullValue=Timinger}" Height="480" Width="700" MinHeight="480" MinWidth="700" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Loaded="Window_Loaded">
     <Window.Resources>
         <Style x:Key="ColumnStyle">
             <Setter Property="TextBlock.TextAlignment" Value="Center"/>
@@ -64,13 +64,13 @@
                 <Separator/>
                 <MenuItem x:Name="Menu_exit" Header="{Binding Path=Language.Exit}" Click="CloseWindow"/>
             </MenuItem>
-            <MenuItem x:Name="Menu_help" Header="{Binding Path=Language.Help}" Click="ShowHelpMenu"/>
-            <MenuItem x:Name="Menu_language" IsEnabled="False" Header="{Binding Path=Language.Lang}">
+            <MenuItem x:Name="Menu_language" Header="{Binding Path=Language.Lang}">
                 <MenuItem IsCheckable="True" IsChecked="{Binding Path=RusLang}" Header="Русский" Click="SwitchToRUS"/>
                 <MenuItem IsCheckable="True" IsChecked="{Binding Path=EngLang}" Header="English" Click="SwitchToENG"/>
             </MenuItem>
-            <MenuItem Header="{Binding Path=Language.AboutProgram}" Click="ShowAboutWindow"/>
+            <MenuItem x:Name="Menu_help" Header="{Binding Path=Language.Help}" Click="ShowHelpMenu"/>
             <MenuItem x:Name="Menu_donate" Header="{Binding Path=Language.Donate}" Click="ShowDonateMenu"/>
+            <MenuItem Header="{Binding Path=Language.AboutProgram}" Click="ShowAboutWindow"/>
         </Menu>
 
         <GroupBox x:Name="GroupBoxTargets" Grid.Column="0" Grid.Row="1" Header="{Binding Path=Language.Targets}" Margin="10,0,0,0">
@@ -140,7 +140,7 @@
                 <TextBlock x:Name="Card5xTextBlock" Grid.Row="3" Grid.Column="0" Text="{Binding StringFormat={}{0} 5x:, Path=Language.Cards}" VerticalAlignment="Center"/>
                 <TextBox x:Name="X5Box" IsEnabled="{Binding Path=IsAlive}" Text="{Binding Path=Card5}" Grid.Column="1" Grid.Row="3" Margin="5 0 0 0" HorizontalAlignment="Stretch" Height="23"/>
 
-                <Button x:Name="Button_count" Content="{Binding Path=IsAliveStr}" Grid.ColumnSpan="2" Grid.Row="4" HorizontalAlignment="Stretch" Height="25" Click="Test"/>
+                <Button x:Name="Button_count" Content="{Binding Path=IsAliveStr}" Grid.ColumnSpan="2" Grid.Row="4" HorizontalAlignment="Stretch" Height="25" Click="Count"/>
                 <CheckBox x:Name="CheckBoxForceCaptain" IsEnabled="{Binding Path=IsAlive}" IsChecked="{Binding Path=ForceCaptain}" Grid.Row="5" Grid.ColumnSpan="2" Content="{Binding Path=Language.ForceCaptain}" VerticalAlignment="Center"/>
             </Grid>
         </GroupBox>
@@ -202,15 +202,24 @@
             </StatusBarItem>
             <StatusBarItem>
                 <TextBlock>
-                <Hyperlink NavigateUri="https://vk.com/club168647995" RequestNavigate="Hyperlink_RequestNavigate">https://vk.com/club168647995</Hyperlink>
+                <Hyperlink NavigateUri="https://vk.com/bigpsoft" RequestNavigate="Hyperlink_RequestNavigate">
+                    <Image Source="win\res\vkicon.png" ToolTip="https://vk.com/bigpsoft"/>
+                </Hyperlink>
+                </TextBlock>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock>
+                <Hyperlink NavigateUri="https://www.facebook.com/groups/652506765115266/" RequestNavigate="Hyperlink_RequestNavigate">
+                    <Image Source="win\res\facebookicon.png" ToolTip="https://www.facebook.com/groups/652506765115266/"/>
+                </Hyperlink>
                 </TextBlock>
             </StatusBarItem>
             <Separator/>
-            <StatusBarItem>
-                <TextBlock Text="{Binding Path=Variants}"/>
-            </StatusBarItem>
             <StatusBarItem HorizontalAlignment="Right" Margin="0 0 5 0">
-                <ProgressBar Minimum="0" Maximum="100" Value="{Binding Path=TotalPercents}" Height="15" Width="100"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Path=Variants}" HorizontalAlignment="Right" Margin="5 0 10 0"/>
+                    <ProgressBar Minimum="0" Maximum="100" Value="{Binding Path=TotalPercents}" Height="15" Width="100"/>
+                </StackPanel>
             </StatusBarItem>
             
         </StatusBar>

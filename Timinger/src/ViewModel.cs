@@ -53,10 +53,7 @@ namespace Timinger
             set
             {
                 this.target = value;
-                if (target != null)
-                {
-                    INotifyPropertyChanged("Target");
-                }
+                    INotifyPropertyChanged("Target");                
             }
         }
         public Config Config { get; set; }
@@ -120,10 +117,10 @@ namespace Timinger
         //Methods
 
         private ViewModel()
-        {             
-            Config = new Config();
+        {
+            Config = Config.GetInstance();
             Config.LoadFromFile();
-            Language = new Language();
+            Language = new Language(Config.Language);
             Targets = new ObservableCollection<Target>();
             //switch (config.Language)
             //{
@@ -169,7 +166,10 @@ namespace Timinger
                         break;
                 }
             }
-            
+            INotifyPropertyChanged("IsAliveStr");
+            var temp = Target;
+            Target = null;
+            Target = temp;
         }
 
         public void FindBest()
@@ -250,7 +250,10 @@ namespace Timinger
                 }
 
                 if (temp_best == null)
-                ShowMessageDialog(Timinger.Language.NoVariants);
+                {
+                    ShowMessageDialog(Timinger.Language.NoVariants);
+                    IsAlive = true;
+                }
                 else
                 {
                     foreach (var item in temp_best)
@@ -270,6 +273,7 @@ namespace Timinger
                 TotalPercents = 0;
                 return;
             }
+            TotalPercents = 0;
         }
         private bool CheckCaps()
         {

@@ -27,6 +27,10 @@ namespace Timinger
         {
             InitializeComponent();
             this.DataContext = language;
+            if(Config.GetInstance().Language != "RUS")
+            {
+                TextBlockMechanical.Text = "Mechanical translation!";
+            }
             TopicListBox.ItemsSource = Timinger.Language.topics;
         }
 

@@ -9,13 +9,17 @@ namespace Timinger
 {
     public class Config
     {
-        public static string ConfigPath = "config.cfg";
+        private Config() { }
+
+        private static Config cfg;
+        private static string ConfigPath = "config.cfg";
         Dictionary<string, string> config = new Dictionary<string, string>()
         {
             {"Language","RUS"},
             {"Delta","3.00"},
             {"LastProjectPath",""},
         };
+        public bool FirstRun { get; set; } = true;
 
         public string Language
         {
@@ -33,7 +37,6 @@ namespace Timinger
             get { return config["LastProjectPath"]; }
             set { config["LastProjectPath"] = value; }
         }
-
         private double delta = 0;
         public double Delta
         {
@@ -49,7 +52,14 @@ namespace Timinger
             }
         }
         
-
+        public static Config GetInstance()
+        {
+            if(cfg == null)
+            {
+                cfg = new Config();
+            }
+            return cfg;
+        }
         public void LoadFromFile()
         {
             string data;
@@ -72,6 +82,7 @@ namespace Timinger
                         }
                     }
                     stream.Close();
+                    FirstRun = false;
                 }
             }
             catch (Exception)
@@ -91,7 +102,21 @@ namespace Timinger
                 writer.Close();
             }
         }
-        
+        public static bool CheckExist()
+        {
+            try
+            {
+                using (StreamReader stream = new StreamReader(ConfigPath))
+                {
+                    stream.Close();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
         private string ParseDelta()
         {
             return config["Delta"].Replace('.', ',');

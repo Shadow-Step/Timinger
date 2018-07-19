@@ -83,7 +83,7 @@ namespace Timinger
         public static string TotalTimeToAttack { get; set; } = "Общее время для атаки";
         public static string ExitMessage { get; set; } = "Вы уверены что хотите выйти?";
         public static string CreateNewFile { get; set; } = "Несохраненные данные будут утеряны, продолжить?";
-        public static string StatusBarText { get; set; } = "Не пропусти свежие обновления в группе ВК ";
+        public static string StatusBarText { get; set; } = "Не пропусти новый софт и свежие обновления ";
         public static string ForceCaptain { get; set; } = "Обязателен капитан";
         public static string NoSlotForCaptain { get; set; } = "Ни одна из атак не может быть капитаном. Измените тип атаки или выключите режим 'Обязателен капитан'";
         public static string NoVariants { get; set; } = "Не найдено ни одного подходящего варианта. Примените карты или уменьшите время ожидания";
@@ -95,9 +95,11 @@ namespace Timinger
         public static string Abort { get; set; } = "Прервать";
         public static string Variants { get; set; } = "Вариантов";
         public static string FAQ { get; set; } = "FAQ";
+        public static string Updates { get; set; } = "Обновления";
 
         public static void SwitchToRUS()
         {
+            Updates = "Обновления";
             FAQ = "FAQ";
             Variants = "Вариантов";
             Abort = "Прервать";
@@ -106,9 +108,9 @@ namespace Timinger
             No = "Нет";
             Active = "Активна";
             AboutProgram = "О программе";
-            ToolTipDelta = "По-умолчанию - 3.00";
+            ToolTipDelta = "По умолчанию - 3.00";
             CreateNewFile = "Несохраненные данные будут утеряны, продолжить?";
-            StatusBarText = "Не пропусти свежие обновления в группе ВК ";
+            StatusBarText = "Не пропусти новый софт и свежие обновления ";
             NoSlotForCaptain = "Ни одна из атак не может быть капитаном. Измените тип атаки или выключите режим 'Обязателен капитан'";
             NoVariants = "Не найдено ни одного подходящего варианта. Примените карты или уменьшите время ожидания";
             ForceCaptain = "Обязателен капитан";
@@ -138,7 +140,7 @@ namespace Timinger
 
             RestTime = "Ожидание";
             Discipline = "Дисциплина";
-            Recount = "Просчитать";
+            Recount = "Посчитать";
 
             //Menu
             File = "Файл";
@@ -186,32 +188,41 @@ namespace Timinger
                 {Donate,"DonateDoc_RUS" },
                 {ForceCaptain,"ForceCaptainDoc_RUS" },
                 {TotalTimeToAttack,"TotalTimeDoc_RUS" },
-                {FAQ, "FAQDoc_RUS" }
+                {Updates,"UpdatesDoc_RUS" }
             };
             CurrentLanguage = "RUS";
         }
         public static void SwitchToENG()
         {
-            AboutProgram = "About program";
+            Updates = "Updates";
+            FAQ = "FAQ";
+            Variants = "Variants";
+            Abort = "Abort";
+            NotEnoughAttacks = "Requires at least 2 attacks";
+            CopyTextToBuffer = "Copy text to the clipboard";
+            No = "No";
+            Active = "Is Active";
+            AboutProgram = "About";
             ToolTipDelta = "Default - 3.00";
-            NoSlotForCaptain = "No slots for captain. Change army types or turn off 'Force captain'";
-            StatusBarText = "Status bar text";
-            NoVariants = "No variants. Apply several cards or reduce rest time";
-            ForceCaptain = "Force captain";
-            Target = "Target";
             CreateNewFile = "Unsaved data will be lost, continue?";
-            UnsafeWarning = "Warning! Changing parametrs and some text over here";
+            StatusBarText = "Do not miss the new soft and latest updates";
+            NoSlotForCaptain = "There are no free slots for captain. Change the type of attack or turn off the 'Only with Captain'";
+            NoVariants = "No result. Apply cards or reduce 'Rest time'";
+            ForceCaptain = "Only with Captain";
+            UnsafeWarning = "Warning! Changing the parameters can lead to errors in the calculations, recheck the results!";
             Text = "Text";
             Filters = "Filters";
+            Target = "Target";
             TargetName = "Target name";
             AttackName = "Attack name";
             TypeArmy = "Army type";
+
             Name = "Name";
             Time = "Time";
             Type = "Type";
             Card = "Card";
             Add = "Add";
-            Del = "Del";
+            Del = "Delete";
             Cards = "Cards";
             Copy = "Copy";
 
@@ -229,7 +240,7 @@ namespace Timinger
             //Menu
             File = "File";
             Help = "Help";
-            Donate = "Support project";
+            Donate = "Support the project";
             Lang = "Language";
             New = "New";
             Open = "Open";
@@ -248,7 +259,7 @@ namespace Timinger
             Card3x = "Cards х3";
             Card5x = "Cards х5";
             Delta = "Delta";
-            TotalTimeToAttack = "Total time for attack";
+            TotalTimeToAttack = "Total time to attack";
             ExitMessage = "Are you sure you want to quit?";
 
             type_dict = new Dictionary<string, ArmyType>()
@@ -263,6 +274,7 @@ namespace Timinger
                 {Name,"NameDoc_ENG" },
                 {Time,"TimeDoc_ENG" },
                 {Type,"TypeDoc_ENG" },
+                {Active,"ActiveDoc_ENG" },
                 {Card,"CardDoc_ENG" },
                 {RestTime,"RestTimeDoc_ENG" },
                 {Targets,"TargetDoc_ENG" },
@@ -270,7 +282,8 @@ namespace Timinger
                 {Unlock,"UnlockDoc_ENG" },
                 {Donate,"DonateDoc_ENG" },
                 {ForceCaptain,"ForceCaptainDoc_ENG" },
-                {TotalTimeToAttack,"TotalTimeDoc_ENG"}
+                {TotalTimeToAttack,"TotalTimeDoc_ENG" },
+                {Updates,"UpdatesDoc_ENG" }
             };
             CurrentLanguage = "ENG";
         }
@@ -303,7 +316,7 @@ namespace Timinger
             {Donate,"DonateDoc_RUS" },
             {ForceCaptain,"ForceCaptainDoc_RUS" },
             {TotalTimeToAttack,"TotalTimeDoc_RUS" },
-            {FAQ,"FAQDoc_RUS" },
+            {Updates,"UpdatesDoc_RUS" }
         };
     }
 }

@@ -71,7 +71,9 @@ namespace Timinger
             InitializeComponent();
             viewModel = ViewModel.GetInstance();
             viewModel.ShowMessageDialog += (str)=> MessageBox.Show(str);
+            
             this.DataContext = viewModel;
+            
             if (viewModel.Config.LastProjectPath != null)
             {
                 try
@@ -85,7 +87,7 @@ namespace Timinger
                 }
             }
             InitColumns();
-            //InitLocal(config.Language);
+            DefaultArmyTypeBox.SelectedIndex = 2;
         }
         private void Window_Closing(object sender, CancelEventArgs e)
         {
@@ -101,7 +103,7 @@ namespace Timinger
             
         }
        
-        private void Test(object sender, RoutedEventArgs e)
+        private void Count(object sender, RoutedEventArgs e)
         {
             if(count_thread == null || count_thread.IsAlive == false)
             {
@@ -113,316 +115,6 @@ namespace Timinger
                 count_thread.Abort();
                 count_thread.Join();
             }
-            
-                
-        }
-        //private void FindBest(object args)
-        //{
-        //    if (viewModel.target == null || viewModel.target.attacks.Count < 2 || CheckCaps() == false)
-        //        return;
-
-        //    List<Attack> attacks = CopyList(viewModel.target.attacks.ToList());
-        //    attacks.RemoveAll((x) => x.Active == false);
-        //    if (attacks.Count < 2)
-        //        return;
-        //    variants.Clear();
-        //    viewModel.target.Best = null;
-
-        //    if (UnlockUnsafeSettings.IsChecked == true)
-        //    {
-        //        if (ArmySpeedBox.SelectedIndex != speed_list.Count - 1 || CapSpeedBox.SelectedIndex != speed_list.Count - 1)
-        //        {
-        //            foreach (var item in attacks)
-        //            {
-        //                switch (item.armytype)
-        //                {
-        //                    case ArmyType.Captain:
-        //                        item.Time *= speed_list[CapSpeedBox.SelectedIndex];
-        //                        break;
-        //                    case ArmyType.Army:
-        //                        item.Time *= speed_list[ArmySpeedBox.SelectedIndex];
-        //                        break;
-        //                    case ArmyType.Unknown:
-        //                        item.Time *= speed_list[ArmySpeedBox.SelectedIndex];
-        //                        break;
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    int card2 = 0;
-        //    int card3 = 0;
-        //    int card5 = 0;
-
-        //    variants.Add(attacks);
-        //    Parse(attacks, (x) => x.EnableCap(viewModel.Config.Delta), 0, attacks.Count);
-
-        //    if (TryParseToDigit(X2Box, out card2) > 0)
-        //    {
-        //        for (int i = 0, size = variants.Count; i < size; i++)
-        //        {
-        //            var arr = CopyList(variants[i]);
-        //            Parse(arr, (x) => x.EnableCard(CardEffect.x2), 0, card2);
-        //        }
-        //    }
-        //    if (TryParseToDigit(X3Box, out card3) > 0)
-        //    {
-        //        for (int i = 0, size = variants.Count; i < size; i++)
-        //        {
-        //            var arr = CopyList(variants[i]);
-        //            Parse(arr, (x) => x.EnableCard(CardEffect.x3), 0, card3);
-        //        }
-        //    }
-        //    if (TryParseToDigit(X5Box, out card5) > 0)
-        //    {
-        //        for (int i = 0, size = variants.Count; i < size; i++)
-        //        {
-        //            var arr = CopyList(variants[i]);
-        //            Parse(arr, (x) => x.EnableCard(CardEffect.x5), 0, card5);
-        //        }
-        //    }
-
-        //    double result_time = 0;
-        //    foreach (var item in variants)
-        //    {
-        //        if (UnlockUnsafeSettings.IsChecked == true)
-        //        {
-        //            if (ArmySpeedBox.SelectedIndex != speed_list.Count - 1 || CapSpeedBox.SelectedIndex != speed_list.Count - 1)
-        //            {
-        //                foreach (var att in item)
-        //                {
-        //                    switch (att.armytype)
-        //                    {
-        //                        case ArmyType.Captain:
-        //                            att.Time /= speed_list[CapSpeedBox.SelectedIndex];
-        //                            break;
-        //                        case ArmyType.Army:
-        //                            att.Time /= speed_list[ArmySpeedBox.SelectedIndex];
-        //                            break;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        item.Sort();
-        //        bool good = true;
-        //        int caps = 0;
-        //        for (int i = 1; i < item.Count; i++)
-        //        {
-        //            if (item[i].Time - item[i - 1].Time < int.Parse(RestTimeTextBox.Text))
-        //            {
-        //                good = false;
-        //                break;
-        //            }
-        //        }
-        //        foreach (var cap in item)
-        //        {
-        //            if (CheckBoxForceCaptain.IsChecked == true)
-        //            {
-        //                if (cap.armytype == ArmyType.Captain)
-        //                    caps++;
-        //            }
-        //        }
-        //        if (CheckBoxForceCaptain.IsChecked == true && caps == 0)
-        //            continue;
-
-        //        var temp = item[item.Count - 1].Time - item[0].Time;
-        //        if (good && (temp < result_time || result_time == 0))
-        //        {
-        //            result_time = item[item.Count - 1].Time - item[0].Time;
-        //            viewModel.target.Best = item;
-        //        }
-        //    }
-
-        //    if (viewModel.target.Best == null)
-        //        NoResultDialog();
-        //    else
-        //    {
-        //        foreach (var item in viewModel.target.Best)
-        //        {
-        //            if (item.armytype == ArmyType.Unknown)
-        //                item.armytype = ArmyType.Army;
-        //        }
-        //        viewModel.target.Best.Reverse();
-        //        TotalTimeTextBlock.Text = Timinger.Language.TotalTimeToAttack + ": " + strfun.SecondsToTimeString(viewModel.target.Best.First().Time - viewModel.target.Best.Last().Time);
-        //        ResultGrid.ItemsSource = viewModel.target.Best;
-        //    }
-
-        //}
-        //private void FindBest(object sender, RoutedEventArgs e)
-        //{
-        //    if (viewModel.target == null || viewModel.target.attacks.Count < 2 || CheckCaps() == false)
-        //        return;
-
-        //    List<Attack> attacks = CopyList(viewModel.target.attacks.ToList());
-        //    attacks.RemoveAll((x) => x.Active == false);
-        //    if (attacks.Count < 2)
-        //        return;
-        //    variants.Clear();
-        //    viewModel.target.Best = null;
-
-        //    if (UnlockUnsafeSettings.IsChecked == true)
-        //    {
-        //        if (ArmySpeedBox.SelectedIndex != speed_list.Count - 1 || CapSpeedBox.SelectedIndex != speed_list.Count - 1)
-        //        {
-        //            foreach (var item in attacks)
-        //            {
-        //                switch (item.armytype)
-        //                {
-        //                    case ArmyType.Captain:
-        //                        item.Time *= speed_list[CapSpeedBox.SelectedIndex];
-        //                        break;
-        //                    case ArmyType.Army:
-        //                        item.Time *= speed_list[ArmySpeedBox.SelectedIndex];
-        //                        break;
-        //                    case ArmyType.Unknown:
-        //                        item.Time *= speed_list[ArmySpeedBox.SelectedIndex];
-        //                        break;
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    int card2 = 0;
-        //    int card3 = 0;
-        //    int card5 = 0;
-
-        //    variants.Add(attacks);
-        //    Parse(attacks, (x) => x.EnableCap(viewModel.Config.Delta), 0, attacks.Count);
-            
-        //    if (TryParseToDigit(X2Box,out card2) > 0)
-        //    {
-        //        for (int i = 0, size = variants.Count; i < size; i++)
-        //        {
-        //            var arr = CopyList(variants[i]);
-        //            Parse(arr, (x) => x.EnableCard(CardEffect.x2), 0, card2);
-        //        }
-        //    }
-        //    if (TryParseToDigit(X3Box,out card3) > 0)
-        //    {
-        //        for (int i = 0, size = variants.Count; i < size; i++)
-        //        {
-        //            var arr = CopyList(variants[i]);
-        //            Parse(arr, (x) => x.EnableCard(CardEffect.x3), 0, card3);
-        //        }
-        //    }
-        //    if (TryParseToDigit(X5Box,out card5) > 0)
-        //    {
-        //        for (int i = 0, size = variants.Count; i < size; i++)
-        //        {
-        //            var arr = CopyList(variants[i]);
-        //            Parse(arr, (x) => x.EnableCard(CardEffect.x5), 0, card5);
-        //        }
-        //    }
-
-        //    double result_time = 0;
-        //    foreach (var item in variants)
-        //    {
-        //        if (UnlockUnsafeSettings.IsChecked == true)
-        //        {
-        //            if (ArmySpeedBox.SelectedIndex != speed_list.Count - 1 || CapSpeedBox.SelectedIndex != speed_list.Count - 1)
-        //            {
-        //                foreach (var att in item)
-        //                {
-        //                    switch (att.armytype)
-        //                    {
-        //                        case ArmyType.Captain:
-        //                            att.Time /= speed_list[CapSpeedBox.SelectedIndex];
-        //                            break;
-        //                        case ArmyType.Army:
-        //                            att.Time /= speed_list[ArmySpeedBox.SelectedIndex];
-        //                            break;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        item.Sort();
-        //        bool good = true;
-        //        int caps = 0;
-        //        for (int i = 1; i < item.Count; i++)
-        //        {
-        //            if (item[i].Time - item[i - 1].Time < int.Parse(RestTimeTextBox.Text))
-        //            {
-        //                good = false;
-        //                break;
-        //            }
-        //        }
-        //        foreach (var cap in item)
-        //        {
-        //            if (CheckBoxForceCaptain.IsChecked == true)
-        //            {
-        //                if (cap.armytype == ArmyType.Captain)
-        //                    caps++;
-        //            }
-        //        }
-        //        if (CheckBoxForceCaptain.IsChecked == true && caps == 0)
-        //            continue;
-
-        //        var temp = item[item.Count - 1].Time - item[0].Time;
-        //        if (good && (temp < result_time || result_time == 0))
-        //        {
-        //            result_time = item[item.Count-1].Time - item[0].Time;
-        //            viewModel.target.Best = item;
-        //        }
-        //    }
-
-        //    if (viewModel.target.Best == null)
-        //        NoResultDialog();
-        //    else
-        //    {
-        //        foreach (var item in viewModel.target.Best)
-        //        {
-        //            if (item.armytype == ArmyType.Unknown)
-        //                item.armytype = ArmyType.Army;
-        //        }
-        //        viewModel.target.Best.Reverse();
-        //        TotalTimeTextBlock.Text = Timinger.Language.TotalTimeToAttack + ": " + strfun.SecondsToTimeString(viewModel.target.Best.First().Time - viewModel.target.Best.Last().Time);
-        //        ResultGrid.ItemsSource = viewModel.target.Best;
-        //    }
-            
-        //}
-        private void Parse(List<Attack> arr, Action action, int pos, int times)
-        {
-            if (times == 0 || pos >= arr.Count)
-                return;
-            for (int i = pos; i < arr.Count; i++)
-            {
-                List<Attack> parsing = CopyList(arr);
-                var executed = action(parsing[i]);
-                if(executed)
-                    //variants.Add(parsing);
-                Parse(parsing, action, i + 1, times - 1);
-            }
-        }
-        private int TryParseToDigit(TextBox text,out int res)
-        {
-            if(int.TryParse(text.Text,out res) == false)
-            {
-                text.Text = 0.ToString();
-            }
-            return res;
-        }
-        private List<Attack> CopyList(List<Attack>parent)
-        {
-            List<Attack> result = new List<Attack>(parent.Count);
-            foreach (var item in parent)
-            {
-                result.Add((Attack)item.Clone());
-            }
-            return result;
-        }
-        private bool CheckCaps()
-        {
-            if(CheckBoxForceCaptain.IsChecked == true)
-            {
-                foreach (var item in viewModel.Target.Attacks)
-                {
-                    if (item.armytype == ArmyType.Captain || item.armytype == ArmyType.Unknown)
-                        return true;
-                }
-                MessageBox.Show(Timinger.Language.NoSlotForCaptain);
-                return false;
-            }
-            return true;
         }
 
         private void ArmySpeedBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -492,7 +184,7 @@ namespace Timinger
             InitColumns();
             DefaultArmyTypeBox.SelectedIndex = 2;
         }
-        private void InitColumns()
+        public void InitColumns()
         {
             ColumnArmyType.Header = Timinger.Language.Type;
             ColumnArmyType2.Header = Timinger.Language.Type;
@@ -631,6 +323,23 @@ namespace Timinger
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (Config.GetInstance().FirstRun == true)
+            {
+                LanguageWindow window = new LanguageWindow(this);
+                
+                window.Owner = this;
+                window.Closed += (object obj, EventArgs a) =>
+                {
+                    this.IsEnabled = true;
+                };
+                this.IsEnabled = false;
+                window.Show();
+                
+            }
         }
     }   
 }

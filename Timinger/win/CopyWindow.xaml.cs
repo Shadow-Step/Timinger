@@ -21,7 +21,6 @@ namespace Timinger
     {
         string target_name;
         List<Attack> list;
-        Timinger.Language language;
 
         public CopyWindow(Timinger.Language language, string target_name, List<Attack> list)
         {
