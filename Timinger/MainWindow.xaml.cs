@@ -15,6 +15,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -28,6 +29,9 @@ namespace Timinger
     /// </summary>
     public partial class MainWindow : Window
     {
+        IntPtr Hwnd = IntPtr.Zero;
+        HwndSource source;
+
         ViewModel viewModel;
         Thread count_thread = null;
 
@@ -61,17 +65,33 @@ namespace Timinger
         //Delegate
         public delegate bool Action(Attack attack);
        
-        public double res = 0;
-        
-        public static List<Attack> count_attacks = new List<Attack>();
-        
 
         public MainWindow()
         {
             InitializeComponent();
+            try
+            {
+                using (FileStream stream = new FileStream("alarm.mp3", FileMode.Open))
+                {
+                    stream.Close();
+                }
+            }
+            catch (Exception)
+            {
+                using (Stream resstream = Application.GetResourceStream(new Uri("win/res/alarm.mp3", UriKind.Relative)).Stream)
+                {
+                    using (FileStream fstream = new FileStream("alarm.mp3", FileMode.OpenOrCreate))
+                    {
+                        while (resstream.Position < resstream.Length)
+                        {
+                            fstream.WriteByte((byte)resstream.ReadByte());
+                        }
+                    }
+
+                }
+            }
             viewModel = ViewModel.GetInstance();
-            viewModel.ShowMessageDialog += (str)=> MessageBox.Show(str);
-            
+            viewModel.ShowMessageDialog += (str)=>  MessageBox.Show(str);
             this.DataContext = viewModel;
             
             if (viewModel.Config.LastProjectPath != null)
@@ -87,7 +107,26 @@ namespace Timinger
                 }
             }
             InitColumns();
-            DefaultArmyTypeBox.SelectedIndex = 2;
+        }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (Config.GetInstance().FirstRun == true)
+            {
+                LanguageWindow window = new LanguageWindow(this);
+
+                window.Owner = this;
+                window.Closed += (object obj, EventArgs a) =>
+                {
+                    this.IsEnabled = true;
+                };
+                this.IsEnabled = false;
+                window.Show();
+            }
+            Hwnd = new WindowInteropHelper(this).Handle;
+            source = HwndSource.FromHwnd(Hwnd);
+            source.AddHook(MsgListener);
+            KeyRegister.hWnd = Hwnd;
+            viewModel.Alarm.HotKey = Config.GetInstance().TimerHotKey;
         }
         private void Window_Closing(object sender, CancelEventArgs e)
         {
@@ -98,6 +137,8 @@ namespace Timinger
             {
                 count_thread?.Abort();
                 count_thread?.Join();
+                viewModel.Alarm.ClosePlayer();
+                KeyRegister.UnregisterKey(Hwnd);
                 viewModel.Config.SaveToFile();
             }
             
@@ -130,11 +171,14 @@ namespace Timinger
             viewModel.Targets.Add(new Target($"Target {viewModel.Targets.Count+1}"));
             if (TargetGrid.Items.Count == 1)
                 TargetGrid.SelectedIndex = 0;
+            DefaultArmyTypeBox.SelectedIndex = 2;
         }
         private void AddAttackToGrid(object sender, RoutedEventArgs e)
         {
             var x = (string)DefaultArmyTypeBox.SelectedItem;
             viewModel.Target?.Attacks.Add(new Attack($"Attack {viewModel.Target.Attacks.Count+1}", 0, x));
+            if (viewModel.Alarm.AttacksFromAttacks == true)
+                viewModel.Alarm.SetTarget(viewModel.Target);
         }
         private void DeleteAttackFromGrid(object sender, RoutedEventArgs e)
         {
@@ -171,43 +215,21 @@ namespace Timinger
             this.IsEnabled = false;
             window.Show();
         }
-
-        private void SwitchToRUS(object sender, RoutedEventArgs e)
+        private void ShowOptionsWindow(object sender, RoutedEventArgs e)
         {
-            viewModel.SwitchLanguage("RUS");
-            InitColumns();
-            DefaultArmyTypeBox.SelectedIndex = 2;
+            OptionsWindow window = new OptionsWindow(viewModel);
+            window.Owner = this;
+            window.Closed += (object obj, EventArgs args) => this.IsEnabled = true;
+            this.IsEnabled = false;
+            window.Show();
         }
-        private void SwitchToENG(object sender, RoutedEventArgs e)
+        private void ShowEditTimeWindow(object sender, RoutedEventArgs e)
         {
-            viewModel.SwitchLanguage("ENG");
-            InitColumns();
-            DefaultArmyTypeBox.SelectedIndex = 2;
-        }
-        public void InitColumns()
-        {
-            ColumnArmyType.Header = Timinger.Language.Type;
-            ColumnArmyType2.Header = Timinger.Language.Type;
-            ColumnCard.Header = Timinger.Language.Card;
-            ColumnName.Header = Timinger.Language.Name;
-            ColumnName2.Header = Timinger.Language.Name;
-            ColumnTime.Header = Timinger.Language.Time;
-            ColumnTime2.Header = Timinger.Language.Time;
-            ColumnActive.Header = Timinger.Language.Active;
-        }
-
-        private void TestButton(object sender, RoutedEventArgs e)
-        {
-            //Temp temp = new Temp();
-            //temp.Show();
-            Random rand = new Random();
-            viewModel.SwitchLanguage("ENG");
-        }
-
-        //Edit later
-        private void NoResultDialog()
-        {
-            MessageBox.Show(Timinger.Language.NoVariants);
+            EditTimeWindow window = new EditTimeWindow(viewModel,viewModel.Alarm.NextAttack);
+            window.Owner = this;
+            window.Closed += (object obj, EventArgs args) => this.IsEnabled = true;
+            this.IsEnabled = false;
+            window.Show();
         }
         private void ShowCopyScreen(object sender, RoutedEventArgs e)
         {
@@ -235,12 +257,71 @@ namespace Timinger
                 }
             }
         }
+
+        private void SwitchToRUS(object sender, RoutedEventArgs e)
+        {
+            viewModel.SwitchLanguage("RUS");
+            InitColumns();
+            //DefaultArmyTypeBox.SelectedIndex = 2;
+        }
+        private void SwitchToENG(object sender, RoutedEventArgs e)
+        {
+            viewModel.SwitchLanguage("ENG");
+            InitColumns();
+            //DefaultArmyTypeBox.SelectedIndex = 2;
+        }
+        public void InitColumns()
+        {
+            ColumnArmyType.Header = Timinger.Language.Type;
+            ColumnArmyType2.Header = Timinger.Language.Type;
+            ColumnCard.Header = Timinger.Language.Card;
+            ColumnName.Header = Timinger.Language.Name;
+            ColumnName2.Header = Timinger.Language.Name;
+            ColumnTime.Header = Timinger.Language.Time;
+            ColumnTime2.Header = Timinger.Language.Time;
+            ColumnActive.Header = Timinger.Language.Active;
+        }
+
+        private async void StartAlarm(object sender, RoutedEventArgs e)
+        {
+            if (viewModel.CountThreadStarted == false)
+            {
+                if (viewModel.Alarm.Started == false)
+                {
+                    if (viewModel.Alarm.Target == null || viewModel.Alarm.AttackList == null || viewModel.Alarm.AttackList.Count < 2)
+                        return;
+                    if(sender is MainWindow)
+                    {
+                        KeyRegister.mouse_event(KeyRegister.MOUSE_BUTTONDOWN, 0, 0, 0, IntPtr.Zero);
+                        Thread.Sleep(50);
+                        KeyRegister.mouse_event(KeyRegister.MOUSE_BUTTONUP, 0, 0, 0, IntPtr.Zero);
+                    }
+                    viewModel.Alarm.Started = true;
+                    viewModel.Alarm.Player.Position = viewModel.Alarm.Player.NaturalDuration.TimeSpan;
+                    Progress<bool> progress = new Progress<bool>((x) =>
+                    {
+                            viewModel.Alarm.PlaySound();
+                    }
+                    );
+                    await Task.Factory.StartNew(() => { viewModel.Alarm.Start(progress); }, TaskCreationOptions.LongRunning);
+                    viewModel.Alarm.Player.Stop();
+                }
+                else
+                {
+                    viewModel.Alarm.Started = false;
+                }
+            }
+        }
+        
+        private void NoResultDialog()
+        {
+            MessageBox.Show(Timinger.Language.NoVariants);
+        }
         
         private void CloseWindow(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
         private void CreateNewFile(object sender, RoutedEventArgs e)
         {
             if(viewModel.Targets.Count != 0)
@@ -303,14 +384,6 @@ namespace Timinger
                 viewModel.Targets = (ObservableCollection<Target>)binary.Deserialize(stream);
             }
         }
-        private void LockUnlockView(bool value)
-        {
-            GroupBoxTargets.IsEnabled = value;
-            GroupBoxAttacks.IsEnabled = value;
-            UnsafeSettings.IsEnabled = value;
-
-        }
-
         private void UnsafeSettingsOn(object sender, RoutedEventArgs e)
         {
             if(viewModel.UnsafeMode == true)
@@ -318,28 +391,47 @@ namespace Timinger
                 MessageBox.Show(Timinger.Language.UnsafeWarning);
             }
         }
-
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;
         }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private IntPtr MsgListener(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (Config.GetInstance().FirstRun == true)
+            const int WM_HOTKEY = 0x0312;
+            switch (msg)
             {
-                LanguageWindow window = new LanguageWindow(this);
-                
-                window.Owner = this;
-                window.Closed += (object obj, EventArgs a) =>
-                {
-                    this.IsEnabled = true;
-                };
-                this.IsEnabled = false;
-                window.Show();
-                
+                case WM_HOTKEY:
+                    var l = lParam.ToInt32();
+                    var w = wParam.ToInt32();
+                    int key = KeyRegister.KeyValue;
+                    int value = KeyRegister.VirtualKeyCodes[key];
+                    
+                    if (l == key || l == value || w == key || w == value)
+                    {
+                        StartAlarm(this, null);
+                    }
+                    break;
+                default:
+                    break;
             }
+
+            return IntPtr.Zero;
+        }
+        private void AttacksGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var a = viewModel?.Target?.Attacks?.Count ?? 0;
+            var b = viewModel?.Alarm?.AttackList?.Count ?? 0;
+            if (viewModel.Alarm.AttacksFromAttacks && a != b)
+                viewModel.Alarm.SetTarget(viewModel.Target);
+        }
+        private void TEMPChangeTime(object sender, RoutedEventArgs e)
+        {
+            var b = (Button)sender;
+            if (b.Content.ToString() == "+")
+                viewModel.Alarm.UnsafeNextTime = viewModel.Alarm.UnsafeNextTime.AddSeconds(1);
+            if (b.Content.ToString() == "-")
+                viewModel.Alarm.UnsafeNextTime.Subtract(TimeSpan.FromSeconds(1));
         }
     }   
 }

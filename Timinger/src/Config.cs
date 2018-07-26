@@ -18,10 +18,17 @@ namespace Timinger
             {"Language","RUS"},
             {"Delta","3.00"},
             {"LastProjectPath",""},
+            {"TimerHotKey","F2"},
+            {"TimerVolume","50"},
+            {"TimerSecondsToSignal","60"},
+            {"TimerDetailTime","10"},
+            {"TimerSecondsToDetail","10"},
+            {"TimerAutoClick","1" },
+            {"TimerAttacksFromResultTable","1"}
         };
         public bool FirstRun { get; set; } = true;
 
-        public string Language
+        public string   Language
         {
             get
             {
@@ -32,13 +39,13 @@ namespace Timinger
                 config["Language"] = value;
             }
         }
-        public string LastProjectPath
+        public string   LastProjectPath
         {
             get { return config["LastProjectPath"]; }
             set { config["LastProjectPath"] = value; }
         }
-        private double delta = 0;
-        public double Delta
+        private double  delta = 0;
+        public double   Delta
         {
             get
             {
@@ -51,7 +58,103 @@ namespace Timinger
                 delta = value; config["Delta"] = value.ToString();
             }
         }
-        
+        public string   TimerHotKey
+        {
+            get { return config["TimerHotKey"]; }
+            set { config["TimerHotKey"] = value; }
+        }
+        public double   TimerVolume
+        {
+            get
+            {
+                var x = double.Parse(config["TimerVolume"]) / 100;
+                if (x > 1 || x < 0)
+                    return 0.5;
+                else
+                    return x;
+            }
+            set
+            {
+                config["TimerVolume"] = ((int)(value*100)).ToString();
+            }
+        }
+        public double   TimerSecondsToSignal
+        {
+            get
+            {
+                return double.Parse(config["TimerSecondsToSignal"]);
+            }
+            set
+            {
+                config["TimerSecondsToSignal"] = value.ToString();
+            }
+        }
+        public double   TimerSecondsToDetail
+        {
+            get
+            {
+                return double.Parse(config["TimerSecondsToDetail"]);
+            }
+            set
+            {
+                config["TimerSecondsToDetail"] = value.ToString();
+            }
+        }
+        public bool     TimerAutoClick
+        {
+            get
+            {
+                var x = int.Parse(config["TimerAutoClick"]);
+                if (x == 0)
+                    return false;
+                else
+                    return true;
+            }
+            set
+            {
+                if (value == true)
+                    config["TimerAutoClick"] = 1.ToString();
+                else
+                    config["TimerAutoClick"] = 0.ToString();
+            }
+        }
+        public bool     TimerAttacksFromResultTable
+        {
+            get
+            {
+                var x = int.Parse(config["TimerAttacksFromResultTable"]);
+                if (x == 0)
+                    return false;
+                else
+                    return true;
+            }
+            set
+            {
+                if (value == true)
+                    config["TimerAttacksFromResultTable"] = 1.ToString();
+                else
+                    config["TimerAttacksFromResultTable"] = 0.ToString();
+            }
+        }
+        public bool     TimerDetailTime
+        {
+            get
+            {
+                var x = int.Parse(config["TimerDetailTime"]);
+                if (x == 0)
+                    return false;
+                else
+                    return true;
+            }
+            set
+            {
+                if (value == true)
+                    config["TimerDetailTime"] = 1.ToString();
+                else
+                    config["TimerDetailTime"] = 0.ToString();
+            }
+        }
+
         public static Config GetInstance()
         {
             if(cfg == null)

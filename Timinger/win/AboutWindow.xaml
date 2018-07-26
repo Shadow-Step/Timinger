@@ -5,22 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Timinger"
         mc:Ignorable="d"
-        Title="{Binding Path=AboutProgram}" Height="180" Width="245" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+        Title="{Binding Path=AboutProgram}" Height="200" Width="245" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Image Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Width="64" Height="64" Source="res\timinger_image.png" Margin="10,10,10,10" VerticalAlignment="Top"/>
-        <TextBlock Grid.Column="1" Grid.Row="0" FontSize="28" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10 0 0 0" Text="Timinger"/>
-        <StackPanel Grid.ColumnSpan="2" Grid.Row="1" Margin="10 0 0 0" Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <StatusBar Grid.Row="0" Grid.ColumnSpan="2" Background="LightGray" Height="25">
+            <StatusBarItem HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock FontWeight="Bold" Text="{Binding Path=AboutProgram}"/>
+            </StatusBarItem>
+        </StatusBar>
+        <Image Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Width="64" Height="64" Source="res\timinger_image.png" Margin="10,10,10,10" VerticalAlignment="Top"/>
+        <TextBlock Grid.Column="1" Grid.Row="1" FontSize="28" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10 0 0 0" Text="Timinger"/>
+        <StackPanel Grid.ColumnSpan="2" Grid.Row="2" Margin="10 0 0 0" Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <TextBlock Text="&#169; Maxim Shimanski (BigPSoft), 2018"/>
             <TextBlock Text="Icon author - Gerd Altmann"/>
-            <TextBlock Text="Version 1.0"/>
+            <TextBlock Text="Version 1.1"/>
         </StackPanel>
     </Grid>
 </Window>

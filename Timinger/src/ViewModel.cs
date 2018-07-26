@@ -10,26 +10,30 @@ using System.Threading.Tasks;
 
 namespace Timinger
 {
-    class ViewModel : INotifyPropertyChanged
+    public class ViewModel : INotifyPropertyChanged
     {
         //Events
         public delegate bool Action(Attack attack);
         public delegate void MessageDialog(string message);
+        public delegate void RegisterKey(string message);
         public delegate void FindBestIsDone(List<Attack> Best);
         public event PropertyChangedEventHandler PropertyChanged;
         public event MessageDialog ShowMessageDialog;
+
         //Fields
         private static ViewModel viewModel = null;
         private List<Attack> temp_best = null;
         private bool ruslang;
         private bool englang;
         private bool isalive = true;
+        private bool countthreadstarted = false;
         private string timpath;
         private double totalpercents = 0;
         private Language language;
         private Target target;
         private ObservableCollection<Target> targets;
-        
+        private int defaulttypeindex = 2;
+
 
         private List<List<Attack>> variants = new List<List<Attack>>();
         private List<double> speed_list = new List<double>()
@@ -47,40 +51,19 @@ namespace Timinger
                 INotifyPropertyChanged("Targets");
             }
         }
-        public Target Target
+        public Target   Target
         {
             get { return this.target; }
             set
             {
                 this.target = value;
-                    INotifyPropertyChanged("Target");                
+                Alarm.SetTarget(value);
+                INotifyPropertyChanged("Target");
+                INotifyPropertyChanged("Editable");
+                INotifyPropertyChanged("NotNullTarget");
             }
         }
-        public Config Config { get; set; }
-        public int Card2 { get; set; } = 0;
-        public int Card3 { get; set; } = 0;
-        public int Card5 { get; set; } = 0;
-        public int ArmySpeedIndex { get; set; } = 8;
-        public int CapSpeedIndex { get; set; } = 8;
-        public int RestTime { get; set; } = 30;
-        public bool UnsafeMode { get; set; } = false;
-        public bool ForceCaptain { get; set; } = true;
-        public string Variants
-        {
-            get { return Language.Variants + ": " + variants?.Count.ToString() ?? "0"; }
-        }
-        public bool RusLang
-        {
-            get { return this.ruslang; }
-            set { this.ruslang = value;INotifyPropertyChanged("RusLang"); }
-
-        }
-        public bool EngLang
-        {
-            get { return this.englang; }
-            set { this.englang = value; INotifyPropertyChanged("EngLang"); }
-
-        }
+        public Config   Config { get; set; }
         public Language Language
         {
             get { return language; }
@@ -90,12 +73,40 @@ namespace Timinger
                 INotifyPropertyChanged("Language");
             }
         }
-        public string TimPath
+        public Alarm Alarm { get; set; }
+        public int      DefaultTypeIndex
         {
-            get { return timpath; }
-            set { timpath = value; Config.LastProjectPath = timpath; INotifyPropertyChanged("TimPath"); }
+            get { return defaulttypeindex; }
+            set
+            {
+                if (value != -1)
+                {
+                    defaulttypeindex = value;
+                    INotifyPropertyChanged("DefaultTypeIndex");
+                }
+            }
         }
-        public bool IsAlive
+        public int      Card2 { get; set; } = 0;
+        public int      Card3 { get; set; } = 0;
+        public int      Card5 { get; set; } = 0;
+        public int      ArmySpeedIndex { get; set; } = 8;
+        public int      CapSpeedIndex { get; set; } = 8;
+        public int      RestTime { get; set; } = 30;
+        public bool     UnsafeMode { get; set; } = false;
+        public bool     ForceCaptain { get; set; } = true;
+        public bool     RusLang
+        {
+            get { return this.ruslang; }
+            set { this.ruslang = value; INotifyPropertyChanged("RusLang"); }
+
+        }
+        public bool     EngLang
+        {
+            get { return this.englang; }
+            set { this.englang = value; INotifyPropertyChanged("EngLang"); }
+
+        }
+        public bool     IsAlive
         {
             get { return this.isalive; }
             set
@@ -103,17 +114,45 @@ namespace Timinger
                 this.isalive = value;
                 INotifyPropertyChanged("IsAlive");
                 INotifyPropertyChanged("IsAliveStr");
+                INotifyPropertyChanged("Editable");
             }
         }
-        public string IsAliveStr
+        public bool     Editable
+        {
+            get { return Target != null && IsAlive; }
+        }
+        public bool     NotNullTarget
+        {
+            get { return Target != null; }
+        }
+        public string   Variants
+        {
+            get { return Language.Variants + ": " + variants?.Count.ToString() ?? "0"; }
+        }
+        public string   TimPath
+        {
+            get { return timpath; }
+            set { timpath = value; Config.LastProjectPath = timpath; INotifyPropertyChanged("TimPath"); }
+        }
+        public string   IsAliveStr
         {
             get { return isalive == true ? Language.Recount : Language.Abort; }
         }
-        public double TotalPercents
+        public double   TotalPercents
         {
             get { return this.totalpercents; }
             set { this.totalpercents = value;INotifyPropertyChanged("TotalPercents"); }
         }
+        public bool     CountThreadStarted
+        {
+            get { return countthreadstarted; }
+            set
+            {
+                countthreadstarted = value;
+                INotifyPropertyChanged("CountThreadStarted");
+            }
+        }
+        
         //Methods
 
         private ViewModel()
@@ -122,17 +161,18 @@ namespace Timinger
             Config.LoadFromFile();
             Language = new Language(Config.Language);
             Targets = new ObservableCollection<Target>();
-            //switch (config.Language)
-            //{
-            //    case "RUS":
-            //        RusLang = true;
-            //        EngLang = false;
-            //        break;
-            //    case "ENG":
-            //        RusLang = false;
-            //        EngLang = true;
-            //        break;
-            //}
+            Alarm = new Alarm();
+            switch (Config.Language)
+            {
+                case "RUS":
+                    RusLang = true;
+                    EngLang = false;
+                    break;
+                case "ENG":
+                    RusLang = false;
+                    EngLang = true;
+                    break;
+            }
         }
         public static ViewModel GetInstance()
         {
@@ -167,16 +207,20 @@ namespace Timinger
                 }
             }
             INotifyPropertyChanged("IsAliveStr");
+            INotifyPropertyChanged("Variants");
+            
             var temp = Target;
             Target = null;
             Target = temp;
+            DefaultTypeIndex = 0;
+            DefaultTypeIndex = 2;
         }
 
         public void FindBest()
         {
             try
             {
-                IsAlive = false;
+                CountThreadStarted = true;
                 TotalPercents = 0;
 
                 List<Attack> attacks = strfun.CopyList(Target.Attacks.ToList());
@@ -185,12 +229,12 @@ namespace Timinger
                 if (attacks.Count < 2)
                 {
                     ShowMessageDialog(Language.NotEnoughAttacks);
-                    IsAlive = true;
+                    CountThreadStarted = false;
                     return;
                 }
                 if (CheckCaps() == false)
                 {
-                    IsAlive = true;
+                    CountThreadStarted = false;
                     return;
                 }
                 if (UnsafeMode == true)
@@ -252,7 +296,7 @@ namespace Timinger
                 if (temp_best == null)
                 {
                     ShowMessageDialog(Timinger.Language.NoVariants);
-                    IsAlive = true;
+                    CountThreadStarted = false;
                 }
                 else
                 {
@@ -263,13 +307,14 @@ namespace Timinger
                     }
                     temp_best.Reverse();
                     Target.Best = new ObservableCollection<Attack>(temp_best);
+                    Alarm.SetTarget(Target);
                     TotalPercents = 0;
-                    IsAlive = true;
+                    CountThreadStarted = false;
                 }
             }
             catch (Exception)
             {
-                IsAlive = true;
+                CountThreadStarted = false;
                 TotalPercents = 0;
                 return;
             }

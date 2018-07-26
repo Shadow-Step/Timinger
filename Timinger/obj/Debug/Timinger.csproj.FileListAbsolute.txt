@@ -51,3 +51,11 @@ d:\Projects\Timinger\Timinger\obj\Debug\MainWindow.baml
 d:\Projects\Timinger\Timinger\obj\Debug\win\res\Topics.baml
 d:\Projects\Timinger\Timinger\obj\Debug\win\AboutWindow.g.cs
 d:\Projects\Timinger\Timinger\obj\Debug\win\AboutWindow.baml
+D:\Projects\Timinger\Timinger\obj\Debug\win\OptionsWindow.g.cs
+D:\Projects\Timinger\Timinger\obj\Debug\win\OptionsWindow.baml
+D:\Projects\Timinger\Timinger\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\Projects\Timinger\Timinger\obj\Debug\win\EditTimeWindow.g.cs
+D:\Projects\Timinger\Timinger\obj\Debug\win\EditTimeWindow.baml
+D:\Projects\Timinger\Timinger\obj\Debug\win\SecretWindow.g.cs
+D:\Projects\Timinger\Timinger\obj\Debug\win\SecretWindow.baml
+D:\Projects\Timinger\Timinger\obj\Debug\Timinger.csprojAssemblyReference.cache

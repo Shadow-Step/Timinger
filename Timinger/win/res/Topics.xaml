@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Timinger.res">
+                    xmlns:local="clr-namespace:Timinger">
     
     <FlowDocument x:Key="NameDoc_RUS">
         <Paragraph>
@@ -211,7 +211,115 @@
         </Paragraph>
     </FlowDocument>
 
-
+    <FlowDocument x:Key="TimerSignalDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>Сигнал:</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                Звуковой сигнал предупреждающий об окончании таймера.
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>Громкость - </Bold> громкость звукового сигнала.
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>Время до сигнала - </Bold> определяет время до окончания таймера (для текущей атаки), при котором воспроизведется звуковой сигнал.
+                
+            </Span>
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="TimerAutoClickDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>Auto-Click:</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                При включенной опции - производит щелчок левой кнопки мыши при нажатии горячей клавиши.
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>!Важно: Во время игры, в окне отправки войск - наведите курсор на кнопку "Отправить" или "Да" (Если требуется подтверждение на расход чести) и нажмите горячую клавишу запуска таймера, тем самым вы добьетесь синхронного запуска таймера и атаки</Bold>
+            </Span>
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="TimerHotKeyDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>Горячая клавиша:</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                Определяет клавишу для запуска таймера.
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>!Важно: Для максимальной синхронности - старайтесь использовать именно "Горячие клавиши", а не ручной запуск таймера. см. "Auto-Click"</Bold>
+            </Span>
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="TimerDetailTimeDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>Детальное время:</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                При включенной опции изменяет формат времени на таймере.
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>Выключено -</Bold> 00:00:09
+                <LineBreak/>
+                <Bold>Включено -</Bold> 9,3423453
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>Время активации -</Bold> определяет время до окончания таймера (для текущей атаки), при котором изменится формат времени на более подробный.
+            </Span>
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="TimerUsedTableDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>Используемая таблица:</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                Таблица которая будет использоваться в таймере.
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>!Важно: Порядок атак в таблице не повлияет на работу таймера (данные будут отсортированы)</Bold>
+            </Span>
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="TimerHowToUseDoc_RUS">
+        <Paragraph>
+            <Span>
+                <Bold>Как пользоваться:</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                1. Добавьте цель.
+                <LineBreak/>
+                <LineBreak/>
+                2. Добавьте минимум 2 атаки.
+                <LineBreak/>
+                <LineBreak/>
+                3. Выберете таблицу для которой хотите использовать таймер (переключатель в шапке с названием). Красная рамка вокруг таблицы сигнализирует о том что таймер не может быть запущен, проверьте достаточно ли у вас атак и не запущен ли подсчет вариантов.
+                <LineBreak/>
+                <LineBreak/>
+                4. Тщательно перепроверьте все данные!.
+                <LineBreak/>
+                <LineBreak/>
+                5. Зайдите в игру и приготовьте атаку которая указана в окне таймера.
+                <LineBreak/>
+                <LineBreak/>
+                6. Наведите курсор на кнопку "Отправить" и нажмите горячую клавишу для запуска таймера.
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>!Важно: Запускайте таймер одновременно с отправкой!</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>!Важно: Последующие атаки запускайте строго по таймеру, пинг учитывать не нужно!</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>!Важно: Допускается отклоняться от таймера чтобы скорректировать порядок прибытия атак. Учтите! - отклонения не повлияют на последующие атаки!</Bold>
+            </Span>
+        </Paragraph>
+    </FlowDocument>
+    
     <FlowDocument x:Key="NameDoc_ENG">
         <Paragraph>
             <Span>
@@ -414,6 +522,146 @@
                 <Bold>VK -</Bold> https://vk.com/bigpsoft
                 <LineBreak/>
                 <Bold>FaceBook -</Bold> https://www.facebook.com/groups/652506765115266/
+            </Span>
+        </Paragraph>
+    </FlowDocument>
+
+    <FlowDocument x:Key="TimerSignalDoc_ENG">
+        <Paragraph>
+            <Span>
+                <Bold>Signal:</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                 A beep is sounding to indicate the end of the timer.
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>Volume -</Bold> the volume of the sound signal.
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>Time to signal -</Bold> Determines the time until the end of the timer (for the current attack), at which the audio signal is played.
+
+            </Span>
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="TimerAutoClickDoc_ENG">
+        <Paragraph>
+            <Span>
+                <Bold>Auto-Click:</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                With this option enabled, it will click the left mouse button when the hotkey is pressed.
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>!Important: During the game, in the "Army send" window, move the cursor to the "Send" or "Yes" button (If confirmation is required for honor expenditure) and press the timer start hot key, thereby you will synchronously start the timer and attack</Bold>
+            </Span>
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="TimerHotKeyDoc_ENG">
+        <Paragraph>
+            <Span>
+                <Bold>Hot Key:</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                Specifies the key to start the timer.
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>!Important: For maximum synchronicity, try using the "Hotkeys" rather than manually starting the timer. see "Auto-Click"</Bold>
+            </Span>
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="TimerDetailTimeDoc_ENG">
+        <Paragraph>
+            <Span>
+                <Bold>Detail time:</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                With the option enabled, it changes the time format of the timer.
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>OFF -</Bold> 00:00:09
+                <LineBreak/>
+                <Bold>ON -</Bold> 9,3423453
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>Activation time -</Bold> Specifies the time until the timer expires (for the current attack), at which the time format changes to a more detailed one.
+            </Span>
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="TimerUsedTableDoc_ENG">
+        <Paragraph>
+            <Span>
+                <Bold>The table used:</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                The table to be used in the timer.
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>!Important: The order of attacks in the table will not affect the operation of the timer (the data will be sorted)</Bold>
+            </Span>
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key = "TimerHowToUseDoc_ENG">
+        <Paragraph>
+            <Span>
+                <Bold>How to use:</Bold>
+                <LineBreak />
+                <LineBreak />
+                1. Add a Target.
+                <LineBreak />
+                <LineBreak />
+                2. Add at least 2 attacks.
+                <LineBreak />
+                <LineBreak />
+                3. Select the table for which you want to use the timer (the switch in the cap with the name). The red frame around the table signals that the timer can not be started, check whether you have enough attacks and whether the counting of options is running.
+                <LineBreak />
+                <LineBreak />
+                4. Carefully double-check all data !.
+                <LineBreak />
+                <LineBreak />
+                5. Enter the game and prepare the attack that is indicated in the timer window.
+                <LineBreak />
+                <LineBreak />
+                6. Move the cursor over the "Send" button and press the hot key to start the timer.
+                <LineBreak />
+                <LineBreak />
+                <Bold>! Important: Start the timer at the same time as sending!</Bold>
+                <LineBreak />
+                <LineBreak />
+                <Bold>! Important: Follow the attacks strictly on the timer, ping should not be considered!</Bold>
+                <LineBreak />
+                <LineBreak />
+                <Bold>! Important: It is allowed to deviate from the timer in order to correct the order of arrival of attacks. Keep in mind! - Deviations will not affect subsequent attacks!</Bold>
+            </Span>
+        </Paragraph>
+    </FlowDocument>
+
+
+    <FlowDocument x:Key="SecretTopic">
+        <Paragraph>
+            <Span>
+                <Bold>Инструкция:</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                Включив опцию Auto-click, программа будет автоматически нажимать левую кнопку в момент когда на таймере будет указанное пользователем время.
+                <LineBreak/>
+                <LineBreak/>
+                1. Подготовьте атаку, расставьте войска и нажмите кнопку "Начать атаку"
+                <LineBreak/>
+                <LineBreak/>
+                2. Если для атаки не требуется честь (атака округа или из округа) - наведите курсор на кнопку "Отправить" и ждите авто-клика.
+                <LineBreak/>
+                <LineBreak/>
+                3. Если честь требуется - выберете режим атака и нажмите кнопку "Отправить", в появившемся окне подтверждения расхода чести - наведите курсор на кнопку "Да" и ждите авто-клика
+            </Span>
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="WarningTopic">
+        <Paragraph>
+            <Span>
+                <Bold>Внимание:</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                Использование данных опций может быть не совсем честным по отношению к другим игрокам, также автоматическая отправка войск не даст вам идеальной точности, а может и вовсе испортить весь тайм! Перед применением потренируйтесь на разведке, подберите нужное для вас время клика! Используйте на свой страх и риск, и только для не очень ответственных атак.
             </Span>
         </Paragraph>
     </FlowDocument>

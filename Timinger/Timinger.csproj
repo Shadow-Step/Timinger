@@ -75,6 +75,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="src\Alarm.cs" />
+    <Compile Include="src\Converters.cs" />
+    <Compile Include="src\KeyRegister.cs" />
     <Compile Include="src\ThreadArgs.cs" />
     <Compile Include="win\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
@@ -85,6 +88,9 @@
     <Compile Include="win\DonateWindow.xaml.cs">
       <DependentUpon>DonateWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="win\EditTimeWindow.xaml.cs">
+      <DependentUpon>EditTimeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="win\HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
@@ -94,6 +100,12 @@
     <Compile Include="src\Target.cs" />
     <Compile Include="src\TopicClass.cs" />
     <Compile Include="src\ViewModel.cs" />
+    <Compile Include="win\OptionsWindow.xaml.cs">
+      <DependentUpon>OptionsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="win\SecretWindow.xaml.cs">
+      <DependentUpon>SecretWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="win\Temp.xaml.cs">
       <DependentUpon>Temp.xaml</DependentUpon>
     </Compile>
@@ -109,6 +121,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="win\DonateWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="win\EditTimeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -129,7 +145,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="win\OptionsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="win\res\Topics.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="win\SecretWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -191,6 +215,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="win\res\facebookicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="win\res\play_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="win\res\stop_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="win\res\options_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="win\res\alarm.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

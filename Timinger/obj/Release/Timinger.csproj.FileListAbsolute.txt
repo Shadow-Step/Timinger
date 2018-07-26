@@ -25,3 +25,10 @@ D:\Projects\Timinger\Timinger\obj\Release\Timinger.csproj.GenerateResource.cache
 D:\Projects\Timinger\Timinger\obj\Release\Timinger.csproj.CoreCompileInputs.cache
 D:\Projects\Timinger\Timinger\obj\Release\Timinger.exe
 D:\Projects\Timinger\Timinger\obj\Release\Timinger.pdb
+D:\Projects\Timinger\Timinger\obj\Release\win\EditTimeWindow.g.cs
+D:\Projects\Timinger\Timinger\obj\Release\win\OptionsWindow.g.cs
+D:\Projects\Timinger\Timinger\obj\Release\GeneratedInternalTypeHelper.g.cs
+D:\Projects\Timinger\Timinger\obj\Release\win\EditTimeWindow.baml
+D:\Projects\Timinger\Timinger\obj\Release\win\OptionsWindow.baml
+D:\Projects\Timinger\Timinger\obj\Release\win\SecretWindow.g.cs
+D:\Projects\Timinger\Timinger\obj\Release\win\SecretWindow.baml

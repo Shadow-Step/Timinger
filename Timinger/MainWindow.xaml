@@ -7,7 +7,10 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Timinger.MainWindow"
         mc:Ignorable="d"
         Title="{Binding StringFormat=Timinger - {0}, Path=TimPath, TargetNullValue=Timinger}" Height="480" Width="700" MinHeight="480" MinWidth="700" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Loaded="Window_Loaded">
+
     <Window.Resources>
+        <local:SelectedIndexConverter x:Key="SelectedIndexConverter"/>
+
         <Style x:Key="ColumnStyle">
             <Setter Property="TextBlock.TextAlignment" Value="Center"/>
         </Style>
@@ -31,21 +34,287 @@
             </Style.Triggers>
         </Style>
         <Style TargetType="DataGridRow" x:Key="SelectedRow_Res">
-
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="FontWeight" Value="Bold"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
-
+        
+        
+        
+        <Style TargetType="RadioButton" x:Key="AttackInTimer">
+            <Setter Property="Content" Value="{Binding Path=Language.Attacks}"/>
+            <Setter Property="IsChecked" Value="{Binding Path=Alarm.AttacksFromAttacks}"/>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Content" Value="{Binding Path=Language.AttacksUsedInTimer}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="RadioButton" x:Key="ResultInTimer">
+            <Setter Property="Content" Value="{Binding Path=Language.Result}"/>
+            <Setter Property="IsChecked" Value="{Binding Path=Alarm.AttacksFromResult}"/>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Content" Value="{Binding Path=Language.ResultUsedInTimer}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="SelectedResultGrid" TargetType="GroupBox">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="IsEnabled" Value="False"/>
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding ElementName=TargetGrid, Path=SelectedIndex, Converter={StaticResource SelectedIndexConverter}}" Value="True"/>
+                        <Condition Binding="{Binding Path=CountThreadStarted}" Value="False"/>
+                        <Condition Binding="{Binding Path=Alarm.Started}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="IsEnabled" Value="True"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=Alarm.AttacksFromResult}" Value="True"/>
+                        <Condition Binding="{Binding Path=Alarm.HasAttacks}" Value="True"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="BorderThickness" Value="2"/>
+                        <Setter Property="BorderBrush" Value="Green"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding ElementName=HiddenResultInTimer,Path=IsChecked}" Value="True"/>
+                        <Condition Binding="{Binding ElementName=HiddenAlarmHasAttacks, Path=IsChecked}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="BorderThickness" Value="2"/>
+                        <Setter Property="BorderBrush" Value="Red"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="SelectedAttackGrid" TargetType="GroupBox">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="IsEnabled" Value="False"/>
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding ElementName=TargetGrid, Path=SelectedIndex, Converter={StaticResource SelectedIndexConverter}}" Value="True"/>
+                        <Condition Binding="{Binding Path=CountThreadStarted}" Value="False"/>
+                        <Condition Binding="{Binding Path=Alarm.Started}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="IsEnabled" Value="True"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=Alarm.AttacksFromAttacks}" Value="True"/>
+                        <Condition Binding="{Binding Path=Alarm.HasAttacks}" Value="True"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="BorderThickness" Value="2"/>
+                        <Setter Property="BorderBrush" Value="Green"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding ElementName=HiddenAttackInTimer,Path=IsChecked}" Value="True"/>
+                        <Condition Binding="{Binding ElementName=HiddenAlarmHasAttacks, Path=IsChecked}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="BorderThickness" Value="2"/>
+                        <Setter Property="BorderBrush" Value="Red"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="SelectedCell" TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        
+        <Style x:Key="ResultDataGrid" TargetType="DataGrid">
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=Alarm.Started}" Value="True"/>
+                        <Condition Binding="{Binding Path=Alarm.AttacksFromResult}" Value="True"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="SelectedItem" Value="{Binding Path=Alarm.NextAttack}"/>
+                        <Setter Property="CellStyle" Value="{StaticResource SelectedCell}"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="AttackDataGrid" TargetType="DataGrid">
+            <Setter Property="ItemsSource" Value="{Binding Path=Target.Attacks}"/>
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=Alarm.Started}" Value="True"/>
+                        <Condition Binding="{Binding Path=Alarm.AttacksFromAttacks}" Value="True"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="ItemsSource" Value="{Binding Path=Alarm.AttackList}"/>
+                        <Setter Property="SelectedItem" Value="{Binding Path=Alarm.NextAttack}"/>
+                        <Setter Property="CellStyle" Value="{StaticResource SelectedCell}"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+        
+        
+        <Style x:Key="TargetGroupBox" TargetType="GroupBox">
+            <Setter Property="IsEnabled" Value="False"/>
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=CountThreadStarted}" Value="False"/>
+                        <Condition Binding="{Binding Path=Alarm.Started}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="IsEnabled" Value="True"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="UnsafeGroupBox" TargetType="GroupBox">
+            <Setter Property="IsEnabled" Value="False"/>
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=CountThreadStarted}" Value="False"/>
+                        <Condition Binding="{Binding Path=Alarm.Started}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="IsEnabled" Value="True"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="CountButton" TargetType="Button">
+            <Setter Property="IsEnabled" Value="False"/>
+            <Setter Property="Content" Value="{Binding Path=Language.Recount}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=CountThreadStarted}" Value="True">
+                    <Setter Property="Content" Value="{Binding Path=Language.Abort}"/>
+                </DataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding ElementName=TargetGrid, Path=SelectedIndex, Converter={StaticResource SelectedIndexConverter}}" Value="True"/>
+                        <Condition Binding="{Binding Path=Alarm.Started}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="IsEnabled" Value="True"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="OptionsTextBox" TargetType="TextBox">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=CountThreadStarted}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ForceCaptainCheckBox" TargetType="CheckBox">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=CountThreadStarted}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="TimerStartButton" TargetType="Button">
+            <Setter Property="IsEnabled" Value="False"/>
+            <Setter Property="Content" Value="{Binding Language.Start}"/>
+            <Setter Property="Visibility" Value="Visible"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Alarm.NotFairOption}" Value="True">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=CountThreadStarted}" Value="False"/>
+                        <Condition Binding="{Binding ElementName=TargetGrid, Path=SelectedIndex, Converter={StaticResource SelectedIndexConverter}}" Value="True"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="IsEnabled" Value="True"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+                <DataTrigger Binding="{Binding Path=Alarm.Started}" Value="True">
+                    <Setter Property="Content" Value="{Binding Path=Language.Abort}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="EditTimeButton" TargetType="Button">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Alarm.Started}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="BlockMenuWhenTimer" TargetType="MenuItem">
+            <Setter Property="IsEnabled" Value="False"/>
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=Alarm.Started}" Value="False"/>
+                        <Condition Binding="{Binding Path=CountThreadStarted}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="IsEnabled" Value="True"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="NotFairBox" TargetType="TextBox">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=Alarm.NotFairOption}" Value="True"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="NotFairButton" TargetType="Button">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=Alarm.NotFairOption}" Value="True"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+        
     </Window.Resources>
     <Grid>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="153"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="153"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -54,17 +323,22 @@
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
+        <CheckBox x:Name="HiddenAttackInTimer" Visibility="Collapsed" IsChecked="{Binding Path=Alarm.AttacksFromAttacks}"/>
+        <CheckBox x:Name="HiddenResultInTimer" Visibility="Collapsed" IsChecked="{Binding Path=Alarm.AttacksFromResult}"/>
+        <CheckBox x:Name="HiddenAlarmHasAttacks" Visibility="Collapsed" IsChecked="{Binding Path=Alarm.HasAttacks}"/>
+        <CheckBox x:Name="HiddenCountThreadStarted" Visibility="Collapsed" IsChecked="{Binding Path=CountThreadStarted}"/>
+
         <Menu VerticalAlignment="Stretch" Grid.Row="0" Grid.ColumnSpan="3">
-            <MenuItem x:Name="Menu_file" Header="{Binding Path=Language.File}">
-                <MenuItem x:Name="Menu_new" Header="{Binding Path=Language.New}" Click="CreateNewFile"/>
-                <MenuItem x:Name="Menu_open" Header="{Binding Path=Language.Open}" Click="LoadFile"/>
+            <MenuItem x:Name="Menu_file" Style="{StaticResource BlockMenuWhenTimer}" Header="{Binding Path=Language.File}">
+                <MenuItem x:Name="Menu_new" Style="{StaticResource BlockMenuWhenTimer}" Header="{Binding Path=Language.New}" Click="CreateNewFile"/>
+                <MenuItem x:Name="Menu_open" Style="{StaticResource BlockMenuWhenTimer}" Header="{Binding Path=Language.Open}" Click="LoadFile"/>
                 <Separator/>
-                <MenuItem x:Name="Menu_save" Header="{Binding Path=Language.Save}" Click="SaveFile"/>
-                <MenuItem x:Name="Menu_saveAs" Header="{Binding Path=Language.SaveAs}" Click="SaveAsFile"/>
+                <MenuItem x:Name="Menu_save" Style="{StaticResource BlockMenuWhenTimer}" Header="{Binding Path=Language.Save}" Click="SaveFile"/>
+                <MenuItem x:Name="Menu_saveAs" Style="{StaticResource BlockMenuWhenTimer}" Header="{Binding Path=Language.SaveAs}" Click="SaveAsFile"/>
                 <Separator/>
                 <MenuItem x:Name="Menu_exit" Header="{Binding Path=Language.Exit}" Click="CloseWindow"/>
             </MenuItem>
-            <MenuItem x:Name="Menu_language" Header="{Binding Path=Language.Lang}">
+            <MenuItem x:Name="Menu_language" Style="{StaticResource BlockMenuWhenTimer}" Header="{Binding Path=Language.Lang}">
                 <MenuItem IsCheckable="True" IsChecked="{Binding Path=RusLang}" Header="Русский" Click="SwitchToRUS"/>
                 <MenuItem IsCheckable="True" IsChecked="{Binding Path=EngLang}" Header="English" Click="SwitchToENG"/>
             </MenuItem>
@@ -73,29 +347,32 @@
             <MenuItem Header="{Binding Path=Language.AboutProgram}" Click="ShowAboutWindow"/>
         </Menu>
 
-        <GroupBox x:Name="GroupBoxTargets" Grid.Column="0" Grid.Row="1" Header="{Binding Path=Language.Targets}" Margin="10,0,0,0">
+        <GroupBox x:Name="GroupBoxTargets" Style="{StaticResource TargetGroupBox}" Grid.Column="0" Grid.Row="1" Header="{Binding Path=Language.Targets}" Margin="10,0,0,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="23"/>
                 </Grid.RowDefinitions>
 
-                <DataGrid RowStyle="{StaticResource SelectedRow_Res}" x:Name="TargetGrid" ItemsSource="{Binding Path=Targets}" SelectedItem="{Binding Path=Target}" Grid.Row="0" GridLinesVisibility="None" HeadersVisibility="None" AutoGenerateColumns="False" Margin="2,2,2,2">
+                <DataGrid RowStyle="{StaticResource SelectedRow_Res}" CellStyle="{StaticResource SelectedCell}" x:Name="TargetGrid" ItemsSource="{Binding Path=Targets}" SelectedItem="{Binding Path=Target}" Grid.Row="0" GridLinesVisibility="None" HeadersVisibility="None" AutoGenerateColumns="False" Margin="2,2,2,2">
                     <DataGrid.Columns>
                         <DataGridTextColumn Width="*" Binding="{Binding Name}"/>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button x:Name="ButtonAddTarget" IsEnabled="{Binding Path=IsAlive}" Grid.Row="1" Content="{Binding Path=Language.Add}" Width="100" Height="23" VerticalAlignment="Stretch" Click="AddTarget"/>
+                <Button x:Name="ButtonAddTarget" Grid.Row="1" Content="{Binding Path=Language.Add}" Width="100" Height="23" VerticalAlignment="Stretch" Click="AddTarget"/>
             </Grid>
         </GroupBox>
 
-        <GroupBox x:Name="GroupBoxAttacks" IsEnabled="{Binding Path=IsAlive}" Grid.Column="1" Grid.Row="1" Header="{Binding Path=Language.Attacks}">
+        <GroupBox x:Name="GroupBoxAttacks" Style="{StaticResource SelectedAttackGrid}" Grid.Column="1" Grid.Row="1">
+            <GroupBox.Header>
+                <RadioButton GroupName="AttacksTable" Style="{StaticResource AttackInTimer}"/>
+            </GroupBox.Header>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="23"/>
                 </Grid.RowDefinitions>
-                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=Target.Attacks}" RowBackground="White" AlternatingRowBackground="LightGray" x:Name="AttacksGrid" Grid.Row="0" Margin="2,2,2,2">
+                <DataGrid AutoGenerateColumns="False" RowStyle="{StaticResource SelectedRow_Res}" Style="{StaticResource AttackDataGrid}" RowBackground="White" AlternatingRowBackground="LightGray" x:Name="AttacksGrid" Grid.Row="0" Margin="2,2,2,2" SelectionChanged="AttacksGrid_SelectionChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="ColumnName" Header="Error" Width="100" Binding="{Binding Path=Name}"/>
                         <DataGridTextColumn x:Name="ColumnTime" Header="Error" Width="60" Binding="{Binding Path=TimeStr}"/>
@@ -106,7 +383,7 @@
                 <DockPanel Grid.Row="1">
                     <Button x:Name="ButtonAddAttack"  Content="{Binding Path=Language.Add}" Width="100" Margin="2,0,0,0" VerticalAlignment="Stretch" Click="AddAttackToGrid"/>
                     <TextBlock x:Name="TextBlockDefaultType" Text="{Binding StringFormat={}{0}: , Path=Language.Type}" Margin="10 0 0 0" VerticalAlignment="Center"/>
-                    <ComboBox x:Name="DefaultArmyTypeBox" ItemsSource="{Binding Source={x:Static local:Language.types}}" SelectedIndex="2" Width="100" Margin="5 0 0 0"/>
+                    <ComboBox x:Name="DefaultArmyTypeBox" ItemsSource="{Binding Source={x:Static local:Language.types}}" SelectedIndex="{Binding Path=DefaultTypeIndex}" Width="100" Margin="5 0 0 0"/>
                     <Button x:Name="ButtonCopyAttack" MinWidth="60" Content="{Binding Path=Language.Copy}" VerticalAlignment="Stretch" HorizontalAlignment="Right" Click="ShowCopyScreen"/>
                 </DockPanel>
 
@@ -129,23 +406,23 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock x:Name="RestTimeTextBlock" Grid.Column="0" Grid.Row="0" Text="{Binding Path=Language.RestTime}" VerticalAlignment="Center"/>
-                <TextBox IsEnabled="{Binding Path=IsAlive}" x:Name="RestTimeTextBox" Text="{Binding Path=RestTime}" Margin="5,0,0,0" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Height="23"/>
+                <TextBox Style="{StaticResource OptionsTextBox}" x:Name="RestTimeTextBox" Text="{Binding Path=RestTime}" Margin="5,0,0,0" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Height="23"/>
 
                 <TextBlock x:Name="Card2xTextBlock" Grid.Row="1" Grid.Column="0" Text="{Binding StringFormat={}{0} 2x:, Path=Language.Cards}" VerticalAlignment="Center"/>
-                <TextBox x:Name="X2Box" IsEnabled="{Binding Path=IsAlive}" Text="{Binding Path=Card2}" Grid.Column="1" Grid.Row="1" Margin="5 0 0 0" HorizontalAlignment="Stretch" Height="23"/>
+                <TextBox x:Name="X2Box" Style="{StaticResource OptionsTextBox}" Text="{Binding Path=Card2}" Grid.Column="1" Grid.Row="1" Margin="5 0 0 0" HorizontalAlignment="Stretch" Height="23"/>
 
                 <TextBlock x:Name="Card3xTextBlock" Grid.Row="2" Grid.Column="0" Text="{Binding StringFormat={}{0} 3x:, Path=Language.Cards}" VerticalAlignment="Center"/>
-                <TextBox x:Name="X3Box" IsEnabled="{Binding Path=IsAlive}" Text="{Binding Path=Card3}" Grid.Column="1" Grid.Row="2" Margin="5 0 0 0" HorizontalAlignment="Stretch" Height="23"/>
+                <TextBox x:Name="X3Box" Style="{StaticResource OptionsTextBox}" Text="{Binding Path=Card3}" Grid.Column="1" Grid.Row="2" Margin="5 0 0 0" HorizontalAlignment="Stretch" Height="23"/>
 
                 <TextBlock x:Name="Card5xTextBlock" Grid.Row="3" Grid.Column="0" Text="{Binding StringFormat={}{0} 5x:, Path=Language.Cards}" VerticalAlignment="Center"/>
-                <TextBox x:Name="X5Box" IsEnabled="{Binding Path=IsAlive}" Text="{Binding Path=Card5}" Grid.Column="1" Grid.Row="3" Margin="5 0 0 0" HorizontalAlignment="Stretch" Height="23"/>
+                <TextBox x:Name="X5Box" Style="{StaticResource OptionsTextBox}" Text="{Binding Path=Card5}" Grid.Column="1" Grid.Row="3" Margin="5 0 0 0" HorizontalAlignment="Stretch" Height="23"/>
 
-                <Button x:Name="Button_count" Content="{Binding Path=IsAliveStr}" Grid.ColumnSpan="2" Grid.Row="4" HorizontalAlignment="Stretch" Height="25" Click="Count"/>
-                <CheckBox x:Name="CheckBoxForceCaptain" IsEnabled="{Binding Path=IsAlive}" IsChecked="{Binding Path=ForceCaptain}" Grid.Row="5" Grid.ColumnSpan="2" Content="{Binding Path=Language.ForceCaptain}" VerticalAlignment="Center"/>
+                <Button x:Name="Button_count" Style="{StaticResource CountButton}" Grid.ColumnSpan="2" Grid.Row="4" HorizontalAlignment="Stretch" Height="25" Click="Count"/>
+                <CheckBox x:Name="CheckBoxForceCaptain" Style="{StaticResource ForceCaptainCheckBox}" IsChecked="{Binding Path=ForceCaptain}" Grid.Row="5" Grid.ColumnSpan="2" Content="{Binding Path=Language.ForceCaptain}" VerticalAlignment="Center"/>
             </Grid>
         </GroupBox>
 
-        <GroupBox Grid.Column="0" IsEnabled="{Binding Path=IsAlive}" Grid.Row="2" Margin="10,0,0,5">
+        <GroupBox Grid.Column="0" Style="{StaticResource UnsafeGroupBox}" Grid.Row="2" Margin="10,0,0,5">
             <GroupBox.Header>
                 <CheckBox x:Name="UnlockUnsafeSettings" IsChecked="{Binding Path=UnsafeMode}" Content="{Binding Path=Language.Unlock}" Click="UnsafeSettingsOn"/>
             </GroupBox.Header>
@@ -172,18 +449,20 @@
                 <TextBlock x:Name="TextBlockDelta" ToolTip="{Binding Path=Language.ToolTipDelta}" Grid.Row="2" Grid.Column="0" Text="{Binding Path=Language.Delta}" VerticalAlignment="Center"/>
                 <TextBox Text="{Binding Path=Config.Delta}" ToolTip="{Binding Path=Language.ToolTipDelta}" Margin="5 0 0 0" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="23"/>
 
-
             </Grid>
         </GroupBox>
 
-        <GroupBox x:Name="GroupBoxResult" IsEnabled="{Binding Path=IsAlive}" Grid.Column="1" Grid.Row="2" Style="{StaticResource UnlockGroupBoxes}" Header="{Binding Path=Language.Result}" Margin="0,0,0,5">
+        <GroupBox x:Name="GroupBoxResult"  Grid.Column="1" Grid.Row="2" Style="{StaticResource SelectedResultGrid}" Margin="0,0,0,5">
+            <GroupBox.Header>
+                <RadioButton GroupName="AttacksTable" Style="{StaticResource ResultInTimer}"/>
+            </GroupBox.Header>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="23"/>
                 </Grid.RowDefinitions>
 
-                <DataGrid x:Name="ResultGrid" ItemsSource="{Binding Path=Target.Best}" CanUserSortColumns="False" IsReadOnly="True" AutoGenerateColumns="False" RowBackground="White" AlternatingRowBackground="LightGray" Grid.Row="0" HorizontalAlignment="Stretch" Margin="2,2,2,2" VerticalAlignment="Stretch">
+                <DataGrid x:Name="ResultGrid" ItemsSource="{Binding Path=Target.Best}" RowStyle="{StaticResource SelectedRow_Res}" Style="{StaticResource ResultDataGrid}" CanUserSortColumns="False" IsReadOnly="True" AutoGenerateColumns="False" RowBackground="White" AlternatingRowBackground="LightGray" Grid.Row="0" HorizontalAlignment="Stretch" Margin="2,2,2,2" VerticalAlignment="Stretch">
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="ColumnName2" Header="Имя" Width="100" Binding="{Binding Name}"/>
                         <DataGridTextColumn x:Name="ColumnTime2" Header="Время" Width="60" Binding="{Binding TimeStr}"/>
@@ -194,6 +473,46 @@
                 <TextBlock x:Name="TotalTimeTextBlock" Text="{Binding Path=Target.TotalTime}" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <Button x:Name="ButtonCopyResult" Grid.Row="1" Content="{Binding Path=Language.Copy}" MinWidth="60" VerticalAlignment="Stretch" HorizontalAlignment="Right" Click="ShowCopyScreen"/>
             </Grid>
+        </GroupBox>
+
+        <GroupBox BorderThickness="1" BorderBrush="Gray" Header="{Binding Path=Language.Timer}" Grid.Column="2" Grid.Row="2" Margin="0,0,10,5">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Separator/>
+                <TextBlock FontSize="18" HorizontalAlignment="{Binding Path=Alarm.TimeAlign}" FontWeight="Bold" Text="{Binding Path=Alarm.CurrentTimeStr}"/>
+                <Separator/>
+                <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=Language.SendAttack}"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="14" MinWidth="50" Text="{Binding StringFormat={}{0}: , Path=Language.From}" VerticalAlignment="Bottom"/>
+                    <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=Alarm.NextAttack.Name}" VerticalAlignment="Bottom"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="14" MinWidth="50" Text="{Binding StringFormat={}{0}: , Path=Language.Type}" VerticalAlignment="Bottom"/>
+                    <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=Alarm.NextAttack.ArmyTypeStr}" VerticalAlignment="Bottom"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="14" MinWidth="50" Text="{Binding StringFormat={}{0}: , Path=Language.Card}" VerticalAlignment="Bottom"/>
+                    <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=Alarm.NextAttack.CardStr}" VerticalAlignment="Bottom"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="14" MinWidth="50" Text="{Binding StringFormat={}{0}: , Path=Language.Time}" VerticalAlignment="Bottom"/>
+                    <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=Alarm.NextAttack.TimeStr}" VerticalAlignment="Bottom"/>
+                    <Button Style="{StaticResource EditTimeButton}" Visibility="Collapsed" ToolTip="{Binding Path=Language.EditTimeToolTip}" Margin="5 0 0 0" Height="14" Width="14" Click="ShowEditTimeWindow"/>
+                </StackPanel>
+                <Separator/>
+                <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                    
+                    <TextBox Style="{StaticResource NotFairBox}" Text="{Binding Path=Alarm.NotFairTime}" Width="37" Height="26" TextAlignment="Center"/>
+                    <Button Style="{StaticResource NotFairButton}" Margin="3 0 0 0" Content="{Binding Path=Language.Accept}" Width="60" Height="26"/>
+                    <Button Style="{StaticResource TimerStartButton}" Width="95" Height="26" Click="StartAlarm"/>
+                    <Button Margin="5 0 0 0" Width="26" Height="26" Click="ShowOptionsWindow">
+                        <Image Source="win\res\options_button.png"/>
+                    </Button>
+                </StackPanel>
+                
+            </StackPanel>
         </GroupBox>
 
         <StatusBar Grid.ColumnSpan="3"  Grid.Row="3">

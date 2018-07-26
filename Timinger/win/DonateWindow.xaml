@@ -10,13 +10,21 @@
         <ResourceDictionary Source="res\Topics.xaml"/>
     </Window.Resources>
     <Grid>
-        <RichTextBox x:Name="DonateTextBox" IsReadOnly="True" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch">
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text="RichTextBox"/>
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <StatusBar Background="LightGray" Height="25">
+                <StatusBarItem HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock FontWeight="Bold" Text="{Binding Path=Donate}"/>
+                </StatusBarItem>
+            </StatusBar>
+            <RichTextBox x:Name="DonateTextBox" IsReadOnly="True" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text="RichTextBox"/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </StackPanel>
+        
     </Grid>
 
 </Window>

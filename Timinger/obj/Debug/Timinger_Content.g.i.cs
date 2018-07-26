@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("win/res/firstrun_eng.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("win/res/alarm.mp3")]
 
 

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Timinger
 {
@@ -96,9 +92,61 @@ namespace Timinger
         public static string Variants { get; set; } = "Вариантов";
         public static string FAQ { get; set; } = "FAQ";
         public static string Updates { get; set; } = "Обновления";
+        public static string From { get; set; } = "Из";
+        public static string SendAttack { get; set; } = "Подготовить:";
+
+        public static string Timer { get; set; } = "Таймер";
+        public static string TimerOptions { get; set; } = "Настройки таймера";
+        public static string Accept { get; set; } = "Принять";
+        public static string Cancel { get; set; } = "Отмена";
+        public static string Volume { get; set; } = "Громкость";
+        public static string HotKeyForStart { get; set; } = "Горячая клавиша для запуска таймера";
+        public static string UseAttacksFromTable { get; set; } = "Использовать атаки из таблицы";
+        public static string PlaySignalBefore { get; set; } = "Проиграть сигнал за";
+        public static string SecondsToSending { get; set; } = "секунд до отправки";
+        public static string AutoClickWhenHotKeyPressed { get; set; } = "Auto-click при нажатии горячей клавиши";
+        public static string DetailTimeBefore { get; set; } = "Подробное время за";
+        public static string AttacksUsedInTimer { get; set; } = "Атаки - используется в таймере";
+        public static string ResultUsedInTimer { get; set; } = "Результат - используется в таймере";
+        public static string Start { get; set; } = "Старт";
+        public static string Basic { get; set; } = "Основные";
+        public static string Signal { get; set; } = "Сигнал";
+        public static string AutoClick { get; set; } = "Auto-Click";
+        public static string DetailTime { get; set; } = "Детальное время";
+        public static string UsedTable { get; set; } = "Используемая таблица";
+        public static string HotKey { get; set; } = "Горячая клавиша";
+        public static string EditTimeToolTip { get; set; } = "Редактировать время";
+        public static string ChangeTo { get; set; } = "Изменить на";
+        public static string HowToUse { get; set; } = "Как пользоваться";
 
         public static void SwitchToRUS()
         {
+            HowToUse = "Как пользоваться";
+            ChangeTo = "Изменить на";
+            EditTimeToolTip = "Редактировать время";
+            HotKey = "Горячая клавиша";
+            UsedTable = "Используемая таблица";
+            DetailTime = "Детальное время";
+            AutoClick = "Auto-Click";
+            Signal = "Сигнал";
+            Basic = "Основные";
+            Timer = "Таймер";
+            Start = "Старт";
+            ResultUsedInTimer = "Результат - используется в таймере";
+            AttacksUsedInTimer = "Атаки - используется в таймере";
+            DetailTimeBefore = "Подробное время за";
+            TimerOptions = "Настройки таймера";
+            Accept = "Принять";
+            Cancel = "Отмена";
+            Volume = "Громкость";
+            HotKeyForStart = "Горячая клавиша для запуска таймера";
+            UseAttacksFromTable = "Использовать атаки из таблицы";
+            PlaySignalBefore = "Проиграть сигнал за";
+            SecondsToSending = "секунд до отправки";
+            AutoClickWhenHotKeyPressed  = "Auto-click при нажатии горячей клавиши";
+
+            SendAttack = "Подготовить:";
+            From = "Из";
             Updates = "Обновления";
             FAQ = "FAQ";
             Variants = "Вариантов";
@@ -190,10 +238,45 @@ namespace Timinger
                 {TotalTimeToAttack,"TotalTimeDoc_RUS" },
                 {Updates,"UpdatesDoc_RUS" }
             };
+            TimerTopics = new Dictionary<string, string>()
+        {
+                {HowToUse,"TimerHowToUseDoc_RUS" },
+            {Signal,"TimerSignalDoc_RUS" },
+            {AutoClick, "TimerAutoClickDoc_RUS" },
+            {HotKey,"TimerHotKeyDoc_RUS" },
+            {DetailTime,"TimerDetailTimeDoc_RUS" },
+            {UsedTable,"TimerUsedTableDoc_RUS" }
+        };
             CurrentLanguage = "RUS";
         }
         public static void SwitchToENG()
         {
+            HowToUse = "How to use";
+            ChangeTo = "Change to";
+            EditTimeToolTip = "Edit time";
+            HotKey = "Hot key";
+            UsedTable = "The table used";
+            DetailTime = "Detail time";
+            AutoClick = "Auto-Click";
+            Signal = "Signal";
+            Basic = "Basic";
+            Timer = "Timer";
+            Start = "Start";
+            ResultUsedInTimer = "Result - used in timer";
+            AttacksUsedInTimer = "Attacks - used in timer";
+            DetailTimeBefore = "Detail time";
+            TimerOptions = "Timer settings";
+            Accept = "Accept";
+            Cancel = "Cancel";
+            Volume = "Volume";
+            HotKey = "HotKey to start the timer";
+            UseAttacksFromTable = "Use attacks from the table";
+            PlaySignalBefore = "Play signal";
+            SecondsToSending = "seconds before sending";
+            AutoClickWhenHotKeyPressed = "Auto-click when hot key is pressed";
+
+            SendAttack = "Send attack:";
+            From = "From";
             Updates = "Updates";
             FAQ = "FAQ";
             Variants = "Variants";
@@ -285,6 +368,15 @@ namespace Timinger
                 {TotalTimeToAttack,"TotalTimeDoc_ENG" },
                 {Updates,"UpdatesDoc_ENG" }
             };
+            TimerTopics = new Dictionary<string, string>()
+        {
+                {HowToUse,"TimerHowToUseDoc_ENG" },
+            {Signal,"TimerSignalDoc_ENG" },
+            {AutoClick, "TimerAutoClickDoc_ENG" },
+            {HotKey,"TimerHotKeyDoc_ENG" },
+            {DetailTime,"TimerDetailTimeDoc_ENG" },
+            {UsedTable,"TimerUsedTableDoc_ENG" }
+        };
             CurrentLanguage = "ENG";
         }
 
@@ -317,6 +409,15 @@ namespace Timinger
             {ForceCaptain,"ForceCaptainDoc_RUS" },
             {TotalTimeToAttack,"TotalTimeDoc_RUS" },
             {Updates,"UpdatesDoc_RUS" }
+        };
+        public static Dictionary<string, string> TimerTopics = new Dictionary<string, string>()
+        {
+            {HowToUse,"TimerHowToUseDoc_RUS" },
+            {Signal,"TimerSignalDoc_RUS" },
+            {AutoClick, "TimerAutoClickDoc_RUS" },
+            {HotKey,"TimerHotKeyDoc_RUS" },
+            {DetailTime,"TimerDetailTimeDoc_RUS" },
+            {UsedTable,"TimerUsedTableDoc_RUS" }
         };
     }
 }

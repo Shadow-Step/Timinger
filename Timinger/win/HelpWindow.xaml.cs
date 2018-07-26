@@ -29,9 +29,12 @@ namespace Timinger
             this.DataContext = language;
             if(Config.GetInstance().Language != "RUS")
             {
-                TextBlockMechanical.Text = "Mechanical translation!";
+                TextBlockMechanical.Text = "Machine translation!";
             }
             TopicListBox.ItemsSource = Timinger.Language.topics;
+
+            CommonTreeItem.ItemsSource = Timinger.Language.topics;
+            TimerTreeItem.ItemsSource = Timinger.Language.TimerTopics;
         }
 
         private void TopicListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -39,6 +42,15 @@ namespace Timinger
             selected = ((KeyValuePair<string,string>)(TopicListBox.SelectedItem)).Value;
             if(selected != null)
             ContentBlock.Document = (FlowDocument)this.FindResource(selected);
+        }
+
+        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if(sender is TreeView item && item.SelectedItem is KeyValuePair<string,string>)
+            {
+                var x = (KeyValuePair<string, string>)item.SelectedItem;
+                ContentBlock.Document = (FlowDocument)this.FindResource(x.Value);
+            }
         }
     }
 }

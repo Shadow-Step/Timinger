@@ -12,21 +12,26 @@
             <ColumnDefinition Width="0.50*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
             <RowDefinition/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        
-        <GroupBox Header="{Binding Path=Text}" Grid.Column="0" Grid.Row="0">
+        <StatusBar Background="LightGray" Height="25" Grid.Row="0" Grid.ColumnSpan="2">
+            <StatusBarItem HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock FontWeight="Bold" Text="{Binding Path=Copy}"/>
+            </StatusBarItem>
+        </StatusBar>
+        <GroupBox Header="{Binding Path=Text}" Grid.Column="0" Grid.Row="1">
             <TextBox x:Name="CopyBox" IsReadOnly="True" Margin="5 5 5 5" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Stretch"/>
         </GroupBox>
-        <GroupBox Header="{Binding Path=Filters}" Grid.Column="1" Grid.Row="0">
+        <GroupBox Header="{Binding Path=Filters}" Grid.Column="1" Grid.Row="1">
         <StackPanel Orientation="Vertical" Margin="5 10 10 10">
             <CheckBox x:Name="TargetCheckBox" Content="{Binding Path=TargetName}" Checked="BuildText" Unchecked="BuildText" IsChecked="True"/>
             <CheckBox x:Name="AttackNameCheckBox" Content="{Binding Path=AttackName}" Checked="BuildText" Unchecked="BuildText" IsChecked="False"/>
             <CheckBox x:Name="ArmyTypeCheckBox" Content="{Binding Path=TypeArmy}" Checked="BuildText" Unchecked="BuildText" IsChecked="False"/>
         </StackPanel>
         </GroupBox>
-        <StatusBar Grid.Row="1" Grid.ColumnSpan="2">
+        <StatusBar Grid.Row="2" Grid.ColumnSpan="2">
             <TextBlock Margin="5 0 0 0" Text="{Binding Path=CopyTextToBuffer}"/>
         </StatusBar>
     </Grid>
